@@ -20,11 +20,11 @@ describe("a person") {
 
 ##### Green
 
-![](Screenshots/Success.png)
+![](Screenshots/success.png)
 
 ##### Failing Tests
 
-![](Screenshots/Failure.png)
+![](Screenshots/failure.png)
 
 ### Assertions
 

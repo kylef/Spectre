@@ -61,7 +61,7 @@ Spectre currently has one standard reporter. There is an API to build your own
 if you would like to. Just create a type that conforms to `Reporter` and pass
 it to the `run` function.
 
-## Installation
+## Installation / Running
 
-Installation is not yet advised.
+Spectre is currently only supported by the [Conche](https://github.com/kylef/Conche) build system. Simply add a `test_spec` to your Conche podspec depending on Spectre and it will run your tests with `conche test`.
 

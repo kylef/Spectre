@@ -16,7 +16,7 @@ describe("a person") {
   let person = Person(name: "Kyle")
 
   $0.it("has a name") {
-    try equal(person.name, "KYle")
+    try equal(person.name, "Kyle")
   }
 
   $0.it("returns the name as description") {

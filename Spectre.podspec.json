@@ -1,0 +1,19 @@
+{
+  "name": "Sprectre",
+  "version": "0.1.0",
+  "summary": "A native Swift build system and dependency manager",
+  "homepage": "https://github.com/kylef/Spectre",
+  "source": { "git": "https://github.com/kylef/Spectre", "tag": "0.1.0" },
+  "authors": { "Kyle Fuller": "kyle@fuller.li" },
+  "license": {
+    "type": "BSD",
+    "file": "LICENSE"
+  },
+  "source_files": ["Spectre/*.swift"],
+  "dependencies": {
+    "Commander": [
+      "~> 0.5.0"
+    ]
+  }
+}
+

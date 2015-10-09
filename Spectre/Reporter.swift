@@ -45,7 +45,7 @@ class StandardReporter : Reporter, ContextReporter {
       let name = failure.position.joinWithSeparator(" ")
       colour(.Red, name)
       let file = "\(failure.failure.file):\(failure.failure.line)"
-      print("\(ANSI.Bold)\(file)\(ANSI.Reset) \(ANSI.Yellow)\(failure.failure.reason)\(ANSI.Reset)")
+      print("  \(ANSI.Bold)\(file)\(ANSI.Reset) \(ANSI.Yellow)\(failure.failure.reason)\(ANSI.Reset)\n")
     }
 
     print("\(successes) passes and \(failures.count) failures")

@@ -1,8 +1,8 @@
 public protocol ContextType {
   func context(name:String, closure:ContextType -> ())
   func describe(name:String, closure:ContextType -> ())
-  func before(closure:() throws -> ())
-  func after(closure:() throws -> ())
+  func before(closure:() -> ())
+  func after(closure:() -> ())
   func it(name:String, closure:() throws -> ())
 }
 
@@ -10,8 +10,11 @@ class Context : ContextType, CaseType {
   let name:String
   var cases = [CaseType]()
 
-  //var befores
-  //var afters
+  typealias Before = (() -> ())
+  typealias After = (() -> ())
+
+  var befores = [Before]()
+  var afters = [After]()
 
   init(name:String) {
     self.name = name
@@ -29,12 +32,12 @@ class Context : ContextType, CaseType {
     cases.append(context)
   }
 
-  func before(closure:() throws -> ()) {
-
+  func before(closure:() -> ()) {
+    befores.append(closure)
   }
 
-  func after(closure:() throws -> ()) {
-
+  func after(closure:() -> ()) {
+    afters.append(closure)
   }
 
   func it(name:String, closure:() throws -> ()) {
@@ -43,7 +46,11 @@ class Context : ContextType, CaseType {
 
   func run(reporter:ContextReporter) {
     reporter.report(name) { reporter in
-      cases.forEach { $0.run(reporter) }
+      cases.forEach {
+        befores.forEach { $0() }
+        $0.run(reporter)
+        afters.forEach { $0() }
+      }
     }
   }
 }

@@ -105,6 +105,6 @@ class DotReporter : Reporter, ContextReporter {
 
   func addFailure(name:String, failure: Failure) {
     failures.append(CaseFailure(position: position + [name], failure: failure))
-    print(ANSI.Red, ".", ANSI.Reset, separator: "", terminator: "")
+    print(ANSI.Red, "F", ANSI.Reset, separator: "", terminator: "")
   }
 }

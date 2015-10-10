@@ -1,3 +1,9 @@
 .conche/
 example
 tests
+SpectreTests/Integration/Failing
+SpectreTests/Integration/Failing-dot-output.txt
+SpectreTests/Integration/Failing-output.txt
+SpectreTests/Integration/Passing
+SpectreTests/Integration/Passing-dot-output.txt
+SpectreTests/Integration/Passing-output.txt

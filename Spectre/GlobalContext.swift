@@ -37,7 +37,13 @@ public func it(name:String, closure:() throws -> ()) {
 }
 
 @noreturn public func run() {
-  let reporter = StandardReporter()
+  let reporter: Reporter
+  if Process.arguments.contains("-t") {
+    reporter = DotReporter()
+  } else {
+    reporter = StandardReporter()
+  }
+
   run(reporter)
 }
 

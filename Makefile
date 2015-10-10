@@ -12,7 +12,7 @@ $(LIBDIR)/libSpectre.dylib: $(SOURCE_FILES)
 	@mkdir -p $(MODULESDIR) $(LIBDIR)
 	@$(SWIFTC) $(SWIFTFLAGS) -module-name Spectre -emit-module -emit-library -emit-module-path $(MODULESDIR)/Spectre.swiftmodule -o $(LIBDIR)/libSpectre.dylib Spectre/*.swift
 
-example: $(LIBDIR)/libSpectre.dylib
+example: $(LIBDIR)/libSpectre.dylib Example.swift
 	@echo "Building Example"
 	@$(SWIFTC) $(SWIFTFLAGS) -lSpectre -module-name Example -o example Example.swift
 

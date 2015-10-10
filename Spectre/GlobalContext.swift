@@ -23,7 +23,10 @@ class GlobalContext {
   }
 }
 
-let globalContext = GlobalContext()
+let globalContext: GlobalContext = {
+  atexit { run() }
+  return GlobalContext()
+}()
 
 public func describe(name:String, closure:ContextType -> ()) {
   globalContext.describe(name, closure: closure)

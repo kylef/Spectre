@@ -24,5 +24,3 @@ describe("a person") {
   }
 }
 
-run()
-

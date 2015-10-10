@@ -1,5 +1,7 @@
 # Spectre
 
+[![Build Status](http://img.shields.io/travis/kylef/Spectre/master.svg?style=flat)](https://travis-ci.org/kylef/Spectre)
+
 BDD Framework for Swift
 
 ## Usage

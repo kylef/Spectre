@@ -1,7 +1,6 @@
 MODULESDIR = .conche/modules
 LIBDIR = .conche/lib
 SWIFTFLAGS = -I $(MODULESDIR) -L $(LIBDIR)
-SWIFT := swift
 SWIFTC := swiftc
 SOURCES := Assert Context GlobalContext Case Failure Reporter
 SOURCE_FILES = $(foreach file,$(SOURCES),Spectre/$(file).swift)
@@ -15,7 +14,10 @@ $(LIBDIR)/libSpectre.dylib: $(SOURCE_FILES)
 
 example: $(LIBDIR)/libSpectre.dylib
 	@echo "Building Example"
-	@$(SWIFT) $(SWIFTFLAGS) -lSpectre Example.swift
+	@$(SWIFTC) $(SWIFTFLAGS) -lSpectre -module-name Example -o example Example.swift
+
+test-example: example
+	@./example
 
 clean:
-	@rm -fr .conche
+	@rm -fr .conche example

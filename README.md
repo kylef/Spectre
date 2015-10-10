@@ -20,15 +20,39 @@ describe("a person") {
 }
 ```
 
-##### Green
+### Reporters
 
-![](Screenshots/success.png)
+Spectre currently has two built-in reporters, Standard and the Dot reporter.
+Custom reporters are supported, simply make a type that conforms to `Reporter`.
+
+#### Standard
+
+The standard reporter produces output as follows:
+
+##### Passing Tests
+
+![Standard Reporter Success](Screenshots/success.png)
 
 ##### Failing Tests
 
-![](Screenshots/failure.png)
+![Standard Reporter Failure](Screenshots/failure.png)
+
+#### Dot
+
+Using the `-t` argument, you can use the dot reporter.
+
+##### Passing Tests
+
+![Dot Reporter Success](Screenshots/success-dot.png)
+
+##### Failing Tests
+
+![Dot Reporter Failure](Screenshots/failure-dot.png)
 
 ### Assertions
+
+Spectre doesn't have many assertions at the moment, we're working on finalising
+the syntax and then we will add more.
 
 #### `equal`
 
@@ -56,12 +80,6 @@ try fail("Everything is broken.")
 
 You can easily provide your own assertions, you just need to call `fail` on
 a failure.
-
-### Reporters
-
-Spectre currently has one standard reporter. There is an API to build your own
-if you would like to. Just create a type that conforms to `Reporter` and pass
-it to the `run` function.
 
 ## Installation / Running
 

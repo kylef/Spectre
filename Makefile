@@ -4,6 +4,8 @@ SWIFTFLAGS = -I $(MODULESDIR) -L $(LIBDIR)
 SWIFTC := swiftc
 SOURCES := Assert Context GlobalContext Case Failure Reporter Reporters Global
 SOURCE_FILES = $(foreach file,$(SOURCES),Spectre/$(file).swift)
+TEST_SOURCES := AssertSpec
+TEST_SOURCE_FILES = $(foreach file,$(TEST_SOURCES),SpectreTests/$(file).swift)
 
 all: spectre example
 spectre: $(LIBDIR)/libSpectre.dylib
@@ -12,6 +14,10 @@ $(LIBDIR)/libSpectre.dylib: $(SOURCE_FILES)
 	@echo "Building Spectre"
 	@mkdir -p $(MODULESDIR) $(LIBDIR)
 	@$(SWIFTC) $(SWIFTFLAGS) -module-name Spectre -emit-module -emit-library -emit-module-path $(MODULESDIR)/Spectre.swiftmodule -o $(LIBDIR)/libSpectre.dylib Spectre/*.swift
+
+tests: spectre $(TEST_SOURCE_FILES)
+	@echo "Building Tests"
+	@$(SWIFTC) $(SWIFTFLAGS) -lSpectre -module-name SpectreTests -o tests $(TEST_SOURCE_FILES)
 
 example: $(LIBDIR)/libSpectre.dylib Example.swift
 	@echo "Building Example"

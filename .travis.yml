@@ -1,4 +1,6 @@
 language: objective-c
 osx_image: xcode7
 script:
-- make SWIFTC="xcrun -sdk macosx swiftc" test-example
+- make SWIFTC="xcrun -sdk macosx swiftc" tests example
+- ./tests
+- ./example

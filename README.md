@@ -65,4 +65,21 @@ it to the `run` function.
 
 ## Installation / Running
 
-Spectre is currently only supported by the [Conche](https://github.com/kylef/Conche) build system. Simply add a `test_spec` to your Conche podspec depending on Spectre and it will run your tests with `conche test`.
+### Conche
+
+[Conche](https://github.com/kylef/Conche) build system has integrated support
+for Spectre. You can simply add a `test_spec` to your Conche podspec depending
+on Spectre and it will run your tests with `conche test`.
+
+### Manually
+
+You can build Spectre as a Framework or a library and link against it.
+
+For example, if you clone Spectre and run `make` it will build a library you
+can link against:
+
+```shell
+$ swiftc -I .conche/modules -L .conche/lib -lSpectre -o runner myTests.swift
+$ ./runner
+```
+

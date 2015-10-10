@@ -5,7 +5,8 @@ SWIFTC := swiftc
 SOURCES := Assert Context GlobalContext Case Failure Reporter Reporters
 SOURCE_FILES = $(foreach file,$(SOURCES),Spectre/$(file).swift)
 
-all: $(LIBDIR)/libSpectre.dylib
+all: spectre example
+spectre: $(LIBDIR)/libSpectre.dylib
 
 $(LIBDIR)/libSpectre.dylib: $(SOURCE_FILES)
 	@echo "Building Spectre"

@@ -1,3 +1,5 @@
+import Darwin
+
 enum ANSI : String, CustomStringConvertible {
   case Red = "\u{001B}[0;31m"
   case Green = "\u{001B}[0;32m"
@@ -7,7 +9,11 @@ enum ANSI : String, CustomStringConvertible {
   case Reset = "\u{001B}[0;0m"
 
   var description:String {
-    return rawValue
+    if isatty(STDOUT_FILENO) > 0 {
+      return rawValue
+    }
+
+    return ""
   }
 }
 

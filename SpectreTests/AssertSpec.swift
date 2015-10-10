@@ -11,8 +11,8 @@ describe("fail assert") {
     }
 
     if !didFail {
-      // LOL, such crazy.
-      try fail("fail didn't throw a failure")
+      // We cannot trust fail inside fails tests.
+      fatalError("Test failed")
     }
   }
 }

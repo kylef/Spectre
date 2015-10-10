@@ -4,6 +4,7 @@
 
 BDD Framework for Swift
 
+
 ## Usage
 
 ```swift
@@ -88,6 +89,13 @@ a failure.
 [Conche](https://github.com/kylef/Conche) build system has integrated support
 for Spectre. You can simply add a `test_spec` to your Conche podspec depending
 on Spectre and it will run your tests with `conche test`.
+
+### Playground
+
+You can use Spectre in an Xcode Playground, open `Spectre.playground` in
+this repository, failures are printed in the console.
+
+![Spectre in an Xcode Playground](Screenshots/Playground.png)
 
 ### Manually
 

@@ -2,7 +2,7 @@ MODULESDIR = .conche/modules
 LIBDIR = .conche/lib
 SWIFTFLAGS = -I $(MODULESDIR) -L $(LIBDIR)
 SWIFTC := swiftc
-SOURCES := Assert Context GlobalContext Case Failure Reporter Reporters
+SOURCES := Assert Context GlobalContext Case Failure Reporter Reporters Global
 SOURCE_FILES = $(foreach file,$(SOURCES),Spectre/$(file).swift)
 
 all: spectre example

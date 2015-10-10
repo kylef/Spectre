@@ -32,7 +32,7 @@ describe("a person") {
 
 Assert two types are equal.
 
-```
+```swift
 try equal(name, "Kyle")
 ```
 
@@ -40,13 +40,13 @@ try equal(name, "Kyle")
 
 Assert two types are not equal.
 
-```
+```swift
 try notEqual(name, "Kyle")
 ```
 
 #### Causing a failure
 
-```
+```swift
 try fail("Everything is broken.")
 ```
 
@@ -64,4 +64,3 @@ it to the `run` function.
 ## Installation / Running
 
 Spectre is currently only supported by the [Conche](https://github.com/kylef/Conche) build system. Simply add a `test_spec` to your Conche podspec depending on Spectre and it will run your tests with `conche test`.
-

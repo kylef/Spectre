@@ -45,6 +45,20 @@ describe("equal assert") {
       try fail("equal did not throw for unequal types")
     }
   }
+
+  $0.it("throws for lhs being nil") {
+    var didThrow = false
+
+    do {
+      try equal(nil, "kyle")
+    } catch {
+      didThrow = true
+    }
+
+    if !didThrow {
+      try fail("equal did not throw for unequal types")
+    }
+  }
 }
 
 describe("notEqual assert") {

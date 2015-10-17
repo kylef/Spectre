@@ -38,73 +38,81 @@ extension CollectionType where Generator.Element == CaseFailure {
   }
 }
 
-class StandardReporter : Reporter, ContextReporter {
+class CountReporter : Reporter, ContextReporter {
   var depth = 0
   var successes = 0
   var position = [String]()
   var failures = [CaseFailure]()
 
-  func report(@noescape closure:ContextReporter -> ()) -> Bool {
-    closure(self)
-
+  func printStatus() {
     failures.print()
 
-    print("\(successes) passes and \(failures.count) failures")
+    if failures.count == 1 {
+      print("\(successes) passes and \(failures.count) failure")
+    } else {
+      print("\(successes) passes and \(failures.count) failures")
+    }
+  }
+
+  func report(@noescape closure: ContextReporter -> ()) -> Bool {
+    closure(self)
+    printStatus()
     return failures.isEmpty
   }
 
-  func report(name:String, @noescape closure:ContextReporter -> ()) {
-    colour(.Bold, "-> \(name)")
+  func report(name: String, @noescape closure: ContextReporter -> ()) {
     ++depth
     position.append(name)
     closure(self)
     --depth
     position.removeLast()
+  }
+
+  func addSuccess(name: String) {
+    ++successes
+  }
+
+  func addFailure(name: String, failure: Failure) {
+    failures.append(CaseFailure(position: position + [name], failure: failure))
+  }
+}
+
+class StandardReporter : CountReporter {
+  override func report(name: String, @noescape closure: ContextReporter -> ()) {
+    colour(.Bold, "-> \(name)")
+    super.report(name, closure: closure)
     print("")
   }
 
-  func addSuccess(name:String) {
-    ++successes
+  override func addSuccess(name: String) {
+    super.addSuccess(name)
     colour(.Green, "-> \(name)")
   }
 
-  func addFailure(name:String, failure: Failure) {
+  override func addFailure(name: String, failure: Failure) {
+    super.addFailure(name, failure: failure)
     colour(.Red, "-> \(name)")
-    failures.append(CaseFailure(position: position + [name], failure: failure))
   }
 
-  func colour(colour:ANSI, _ message:String) {
+  func colour(colour: ANSI, _ message: String) {
     let indentation = String(count: depth * 2, repeatedValue: " " as Character)
     print("\(indentation)\(colour)\(message)\(ANSI.Reset)")
   }
 }
 
-class DotReporter : Reporter, ContextReporter {
-  var successes = 0
-  var failures = [CaseFailure]()
-  var position = [String]()
-
-  func report(@noescape closure:ContextReporter -> ()) -> Bool {
-    closure(self)
-    print("\n")
-    failures.print()
-    print("\(successes) passes and \(failures.count) failures")
-    return failures.isEmpty
-  }
-
-  func report(name:String, @noescape closure:ContextReporter -> ()) {
-    position.append(name)
-    closure(self)
-    position.removeLast()
-  }
-
-  func addSuccess(name:String) {
-    ++successes
+class DotReporter : CountReporter {
+  override func addSuccess(name: String) {
+    super.addSuccess(name)
     print(ANSI.Green, ".", ANSI.Reset, separator: "", terminator: "")
   }
 
-  func addFailure(name:String, failure: Failure) {
-    failures.append(CaseFailure(position: position + [name], failure: failure))
+  override func addFailure(name: String, failure: Failure) {
+    super.addFailure(name, failure: failure)
     print(ANSI.Red, "F", ANSI.Reset, separator: "", terminator: "")
+  }
+
+  override func printStatus() {
+    print("\n")
+    super.printStatus()
   }
 }

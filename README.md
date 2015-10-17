@@ -78,13 +78,13 @@ try notEqual(name, "Kyle")
 #### Causing a failure
 
 ```swift
-try fail("Everything is broken.")
+throw failure("Everything is broken.")
 ```
 
 #### Custom assertions
 
-You can easily provide your own assertions, you just need to call `fail` on
-a failure.
+You can easily provide your own assertions, you just need to throw a
+failure when the assertion does not meet expectaions.
 
 ## Installation / Running
 

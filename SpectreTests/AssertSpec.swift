@@ -5,7 +5,7 @@ describe("fail assert") {
     var didFail = false
 
     do {
-      try fail("it's broken")
+      throw failure("it's broken")
     } catch {
       didFail = true
     }
@@ -28,7 +28,7 @@ describe("equal assert") {
     }
 
     if didThrow {
-      try fail("equal throwed for equal types")
+      throw failure("equal throwed for equal types")
     }
   }
 
@@ -42,7 +42,7 @@ describe("equal assert") {
     }
 
     if !didThrow {
-      try fail("equal did not throw for unequal types")
+      throw failure("equal did not throw for unequal types")
     }
   }
 
@@ -56,7 +56,7 @@ describe("equal assert") {
     }
 
     if !didThrow {
-      try fail("equal did not throw for unequal types")
+      throw failure("equal did not throw for unequal types")
     }
   }
 }
@@ -72,7 +72,7 @@ describe("notEqual assert") {
     }
 
     if !didThrow {
-      try fail("notEqual did not throw for equal types")
+      throw failure("notEqual did not throw for equal types")
     }
   }
 
@@ -86,7 +86,7 @@ describe("notEqual assert") {
     }
 
     if didThrow {
-      try fail("notEqual did not throw for unequal types")
+      throw failure("notEqual did not throw for unequal types")
     }
   }
 }

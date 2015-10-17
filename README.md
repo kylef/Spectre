@@ -2,7 +2,11 @@
 
 [![Build Status](http://img.shields.io/travis/kylef/Spectre/master.svg?style=flat)](https://travis-ci.org/kylef/Spectre)
 
-BDD Framework for Swift
+[*Sp*ecial *E*xecutive for *C*ommand-line *T*est *R*unning and
+*E*xecution](https://en.wikipedia.org/wiki/SPECTRE).
+
+A behavior-driven development (BDD) framework and test runner for Swift projects
+and playgrounds. It is Foundation-free and Linux-ready!
 
 
 ## Usage

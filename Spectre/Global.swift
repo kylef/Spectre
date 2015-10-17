@@ -16,7 +16,9 @@ public func it(name:String, closure:() throws -> ()) {
 @noreturn public func run() {
   let reporter: Reporter
 
-  if Process.arguments.contains("-t") {
+  if Process.arguments.contains("--tap") {
+    reporter = TapReporter()
+  } else if Process.arguments.contains("-t") {
     reporter = DotReporter()
   } else {
     reporter = StandardReporter()

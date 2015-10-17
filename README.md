@@ -30,6 +30,10 @@ describe("a person") {
 Spectre currently has two built-in reporters, Standard and the Dot reporter.
 Custom reporters are supported, simply make a type that conforms to `Reporter`.
 
+- Standard
+- Dot Reporter (`-t`)
+- Tap Reporter (`--tap)` - [Test Anything Protocol](http://testanything.org/)-compatible output
+
 #### Standard
 
 The standard reporter produces output as follows:

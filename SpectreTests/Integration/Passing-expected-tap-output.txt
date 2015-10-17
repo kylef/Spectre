@@ -1,0 +1,2 @@
+ok 1 - a person named kyle is Kyle
+1..1

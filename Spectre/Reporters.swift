@@ -116,3 +116,28 @@ class DotReporter : CountReporter {
     super.printStatus()
   }
 }
+
+class TapReporter : CountReporter {
+  var count = 0
+
+  override func addSuccess(name: String) {
+    ++count
+    super.addSuccess(name)
+
+    let message = (position + [name]).joinWithSeparator(" ")
+    print("ok \(count) - \(message)")
+  }
+
+  override func addFailure(name: String, failure: Failure) {
+    ++count
+    super.addFailure(name, failure: failure)
+
+    let message = (position + [name]).joinWithSeparator(" ")
+    print("not ok \(count) - \(message)")
+    print("# \(failure.reason) from \(failure.file):\(failure.line)")
+  }
+
+  override func printStatus() {
+    print("\(min(1, count))..\(count)")
+  }
+}

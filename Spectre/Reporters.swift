@@ -19,9 +19,9 @@ enum ANSI : String, CustomStringConvertible {
 
 struct CaseFailure {
   let position: [String]
-  let failure: Failure
+  let failure: FailureType
 
-  init(position: [String], failure: Failure) {
+  init(position: [String], failure: FailureType) {
     self.position = position
     self.failure = failure
   }
@@ -72,7 +72,7 @@ class CountReporter : Reporter, ContextReporter {
     ++successes
   }
 
-  func addFailure(name: String, failure: Failure) {
+  func addFailure(name: String, failure: FailureType) {
     failures.append(CaseFailure(position: position + [name], failure: failure))
   }
 }
@@ -89,7 +89,7 @@ class StandardReporter : CountReporter {
     colour(.Green, "-> \(name)")
   }
 
-  override func addFailure(name: String, failure: Failure) {
+  override func addFailure(name: String, failure: FailureType) {
     super.addFailure(name, failure: failure)
     colour(.Red, "-> \(name)")
   }
@@ -106,7 +106,7 @@ class DotReporter : CountReporter {
     print(ANSI.Green, ".", ANSI.Reset, separator: "", terminator: "")
   }
 
-  override func addFailure(name: String, failure: Failure) {
+  override func addFailure(name: String, failure: FailureType) {
     super.addFailure(name, failure: failure)
     print(ANSI.Red, "F", ANSI.Reset, separator: "", terminator: "")
   }
@@ -128,7 +128,7 @@ class TapReporter : CountReporter {
     print("ok \(count) - \(message)")
   }
 
-  override func addFailure(name: String, failure: Failure) {
+  override func addFailure(name: String, failure: FailureType) {
     ++count
     super.addFailure(name, failure: failure)
 

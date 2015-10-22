@@ -2,9 +2,9 @@ MODULESDIR = .conche/modules
 LIBDIR = .conche/lib
 SWIFTFLAGS = -I $(MODULESDIR) -L $(LIBDIR)
 SWIFTC := swiftc
-SOURCES := Assert Context GlobalContext Case Failure Reporter Reporters Global
+SOURCES := Assert Expectation Context GlobalContext Case Failure Reporter Reporters Global
 SOURCE_FILES = $(foreach file,$(SOURCES),Spectre/$(file).swift)
-TEST_SOURCES := AssertSpec
+TEST_SOURCES := ExpectationSpec FailureSpec
 TEST_SOURCE_FILES = $(foreach file,$(TEST_SOURCES),SpectreTests/$(file).swift)
 INTEGRATION = Passing Failing
 INTEGRATION_BINS = $(foreach file,$(INTEGRATION),SpectreTests/Integration/$(file))
@@ -24,19 +24,22 @@ SpectreTests/Integration/%: spectre SpectreTests/Integration/%.swift
 
 tests: spectre $(TEST_SOURCE_FILES)
 	@echo "Building Tests"
-	@$(SWIFTC) $(SWIFTFLAGS) -lSpectre -module-name SpectreTests -o tests $(TEST_SOURCE_FILES)
+	@cat $(TEST_SOURCE_FILES) > tests.swift
+	@$(SWIFTC) $(SWIFTFLAGS) -lSpectre -module-name SpectreTests -o tests tests.swift
 
 example: $(LIBDIR)/libSpectre.dylib Example.swift
 	@echo "Building Example"
 	@$(SWIFTC) $(SWIFTFLAGS) -lSpectre -module-name Example -o example Example.swift
 
-test: tests integration test-example
+test: tests test-example test-integration
 	@echo "Running Tests"
 	@./tests
 	@echo
 
+test-integration: integration
 	@echo "Running Integration"
 	@./SpectreTests/Integration/run.sh $(INTEGRATION_BINS)
+	@echo
 
 test-example: example
 	@echo "Running Example"

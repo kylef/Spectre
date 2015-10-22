@@ -15,7 +15,7 @@ class Case : CaseType {
     do {
       try closure()
       reporter.addSuccess(name)
-    } catch let error as Failure {
+    } catch let error as FailureType {
       reporter.addFailure(name, failure: error)
     } catch {
       reporter.addFailure(name, failure: Failure(reason: "Unhandled error: \(error)"))

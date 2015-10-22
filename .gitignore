@@ -1,6 +1,7 @@
 .conche/
 example
 tests
+tests.swift
 SpectreTests/Integration/Failing
 SpectreTests/Integration/Failing-dot-output.txt
 SpectreTests/Integration/Failing-output.txt

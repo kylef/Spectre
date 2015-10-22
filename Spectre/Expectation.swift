@@ -1,0 +1,72 @@
+public protocol ExpectationType {
+  typealias ValueType
+  var expression: () throws -> ValueType? { get }
+  func failure(reason: String) -> FailureType
+}
+
+struct ExpectationFailure : FailureType {
+  let file: String
+  let line: Int
+  let function: String
+
+  let reason: String
+
+  init(reason: String, file: String, line: Int, function: String) {
+    self.reason = reason
+    self.file = file
+    self.line = line
+    self.function = function
+  }
+}
+
+public class Expectation<T> : ExpectationType {
+  public typealias ValueType = T
+  public let expression: () throws -> ValueType?
+
+  let file: String
+  let line: Int
+  let function: String
+
+  init(file: String, line: Int, function: String, expression: () throws -> ValueType?) {
+    self.file = file
+    self.line = line
+    self.function = function
+    self.expression = expression
+  }
+
+  public func failure(reason: String) -> FailureType {
+    return ExpectationFailure(reason: reason, file: file, line: line, function: function)
+  }
+}
+
+/*
+public func expect<T>(@autoclosure(escaping) expression: () throws -> T?) -> Expectation<T> {
+  return Expectation(expression)
+}
+*/
+
+public func expect<T>(value: T?, file: String = __FILE__, line: Int = __LINE__, function: String = __FUNCTION__) -> Expectation<T> {
+  return Expectation(file: file, line: line, function: function) {
+    return value
+  }
+}
+
+
+// MARK: Equatability
+
+public func == <E: ExpectationType where E.ValueType: Equatable>(lhs: E, rhs: E.ValueType) throws {
+  if let value = try lhs.expression() {
+    if value != rhs {
+      throw lhs.failure("\(value) is not equal to \(rhs)")
+    }
+  } else {
+    throw lhs.failure("given value is nil")
+  }
+}
+
+public func != <E: ExpectationType where E.ValueType: Equatable>(lhs: E, rhs: E.ValueType) throws {
+  let value = try lhs.expression()
+  if value == rhs {
+    throw lhs.failure("\(value) is equal to \(rhs)")
+  }
+}

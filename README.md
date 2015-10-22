@@ -16,11 +16,11 @@ describe("a person") {
   let person = Person(name: "Kyle")
 
   $0.it("has a name") {
-    try equal(person.name, "Kyle")
+    try expect(person.name) == "Kyle"
   }
 
   $0.it("returns the name as description") {
-    try equal(person.description, "Kyle")
+    try expect(person.description) == "Kyle"
   }
 }
 ```
@@ -58,25 +58,13 @@ Using the `-t` argument, you can use the dot reporter.
 
 ![Dot Reporter Failure](Screenshots/failure-dot.png)
 
-### Assertions
+### Expectation
 
-Spectre doesn't have many assertions at the moment, we're working on finalising
-the syntax and then we will add more.
-
-#### `equal`
-
-Assert two types are equal.
+#### Equivalence
 
 ```swift
-try equal(name, "Kyle")
-```
-
-#### `notEqual`
-
-Assert two types are not equal.
-
-```swift
-try notEqual(name, "Kyle")
+try expect(name) == "Kyle"
+try expect(name) != "Kyle"
 ```
 
 #### Causing a failure

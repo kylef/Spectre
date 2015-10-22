@@ -141,3 +141,33 @@ extension ExpectationType {
     }
   }
 }
+
+// MARK: Comparable
+
+public func > <E: ExpectationType where E.ValueType: Comparable>(lhs: E, rhs: E.ValueType) throws {
+  let value = try lhs.expression()
+  guard value > rhs else {
+    throw lhs.failure("\(value) is not more than \(rhs)")
+  }
+}
+
+public func >= <E: ExpectationType where E.ValueType: Comparable>(lhs: E, rhs: E.ValueType) throws {
+  let value = try lhs.expression()
+  guard value >= rhs else {
+    throw lhs.failure("\(value) is not more than or equal to \(rhs)")
+  }
+}
+
+public func < <E: ExpectationType where E.ValueType: Comparable>(lhs: E, rhs: E.ValueType) throws {
+  let value = try lhs.expression()
+  guard value < rhs else {
+    throw lhs.failure("\(value) is not less than \(rhs)")
+  }
+}
+
+public func <= <E: ExpectationType where E.ValueType: Comparable>(lhs: E, rhs: E.ValueType) throws {
+  let value = try lhs.expression()
+  guard value <= rhs else {
+    throw lhs.failure("\(value) is not less than or equal to \(rhs)")
+  }
+}

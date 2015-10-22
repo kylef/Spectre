@@ -82,6 +82,15 @@ try expect(try write()).to.throw()
 try expect(try write()).to.throw(FileError.NoPermission)
 ```
 
+#### Comparable
+
+```swift
+try expect(5) > 2
+try expect(5) >= 2
+try expect(5) < 10
+try expect(5) <= 10
+```
+
 #### Causing a failure
 
 ```swift

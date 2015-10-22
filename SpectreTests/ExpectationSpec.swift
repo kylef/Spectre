@@ -124,4 +124,42 @@ describe("Expectation") {
       } catch {}
     }
   }
+
+  $0.describe("comparable") {
+    $0.it("can compare using the > operator") {
+      try expect(5) > 2
+
+      do {
+        try expect(5) > 5
+        fatalError()
+      } catch {}
+    }
+
+    $0.it("can compare using the >= operator") {
+      try expect(5) >= 5
+
+      do {
+        try expect(5) >= 6
+        fatalError()
+      } catch {}
+    }
+
+    $0.it("can compare using the < operator") {
+      try expect(5) < 6
+
+      do {
+        try expect(5) < 5
+        fatalError()
+      } catch {}
+    }
+
+    $0.it("can compare using the <= operator") {
+      try expect(5) <= 5
+
+      do {
+        try expect(5) <= 4
+        fatalError()
+      } catch {}
+    }
+  }
 }

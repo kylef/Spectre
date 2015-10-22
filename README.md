@@ -90,6 +90,15 @@ throw failure("Everything is broken.")
 You can easily provide your own assertions, you just need to throw a
 failure when the assertion does not meet expectaions.
 
+## Examples
+
+The following projects use Spectre:
+
+| Project | CI |
+| ------- | -- |
+| [Inquiline](https://github.com/nestproject/Inquiline) | [![Build Status](http://img.shields.io/travis/nestproject/Inquiline/master.svg?style=flat)](https://travis-ci.org/nestproject/Inquiline) |
+| [CardKit](https://github.com/kylef/CardKit) | [![Build Status](http://img.shields.io/travis/kylef/CardKit/master.svg?style=flat)](https://travis-ci.org/kylef/CardKit) |
+
 ## Installation / Running
 
 ### Conche
@@ -116,4 +125,3 @@ can link against:
 $ swiftc -I .conche/modules -L .conche/lib -lSpectre -o runner myTests.swift
 $ ./runner
 ```
-

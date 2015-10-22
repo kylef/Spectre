@@ -6,6 +6,6 @@ public protocol ContextReporter {
   func report(name:String, @noescape closure:ContextReporter -> ())
 
   func addSuccess(name:String)
-  func addFailure(name:String, failure: Failure)
+  func addFailure(name:String, failure: FailureType)
 }
 

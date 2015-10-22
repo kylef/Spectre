@@ -6,7 +6,7 @@ class PlaygroundReporter : ContextReporter {
     Swift.print("\(indentation)\(message)")
   }
 
-  func report(name:String, @noescape closure:ContextReporter -> ()) {
+  func report(name:String, @noescape closure: ContextReporter -> ()) {
     print("\(name):")
 
     ++depth
@@ -20,14 +20,14 @@ class PlaygroundReporter : ContextReporter {
     print("✓ \(name)")
   }
 
-  func addFailure(name:String, failure: Failure) {
+  func addFailure(name:String, failure: FailureType) {
     print("✗ \(name)")
   }
 }
 
 let reporter = PlaygroundReporter()
 
-public func describe(name:String, closure:ContextType -> ()) {
+public func describe(name:String, closure: ContextType -> ()) {
   let context = Context(name: name)
   closure(context)
   context.run(reporter)

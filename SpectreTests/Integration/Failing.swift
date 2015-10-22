@@ -7,7 +7,7 @@ describe("a person") {
     person = "Katie"
 
     $0.it("is Kyle") {
-      try equal(person, "Kyle")
+      try expect(person) == "Kyle"
     }
   }
 }

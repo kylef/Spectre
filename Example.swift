@@ -16,11 +16,10 @@ describe("a person") {
   let person = Person(name: "Kyle")
 
   $0.it("has a name") {
-    try equal(person.name, "Kyle")
+    try expect(person.name) == "Kyle"
   }
 
   $0.it("returns the name as description") {
-    try equal(person.description, "Kyle")
+    try expect(person.description) == "Kyle"
   }
 }
-

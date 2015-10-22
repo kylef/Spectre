@@ -95,7 +95,7 @@ failure when the assertion does not meet expectaions.
 The following projects use Spectre:
 
 | Project | CI |
-| ------- | -- |
+|---------|----|
 | [Inquiline](https://github.com/nestproject/Inquiline) | [![Build Status](http://img.shields.io/travis/nestproject/Inquiline/master.svg?style=flat)](https://travis-ci.org/nestproject/Inquiline) |
 | [CardKit](https://github.com/kylef/CardKit) | [![Build Status](http://img.shields.io/travis/kylef/CardKit/master.svg?style=flat)](https://travis-ci.org/kylef/CardKit) |
 

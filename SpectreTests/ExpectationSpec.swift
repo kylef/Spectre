@@ -93,4 +93,35 @@ describe("Expectation") {
       } catch {}
     }
   }
+
+  $0.describe("error handling") {
+    enum FileError : ErrorType {
+      case NotFound
+      case NoPermission
+    }
+
+    func throwing() throws {
+      throw FileError.NotFound
+    }
+
+    func nonThrowing() throws {}
+
+    $0.it("doesn't throw if error is the same") {
+      try expect(try throwing()).toThrow(FileError.NotFound)
+    }
+
+    $0.it("throws if the error differs") {
+      do {
+        try expect(try throwing()).toThrow(FileError.NoPermission)
+        fatalError()
+      } catch {}
+    }
+
+    $0.it("throws if no error was provided") {
+      do {
+        try expect(try nonThrowing()).toThrow()
+        fatalError()
+      } catch {}
+    }
+  }
 }

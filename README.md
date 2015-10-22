@@ -75,6 +75,13 @@ try expect(alive).to.beFalse()
 try expect(alive).to.beNil()
 ```
 
+#### Error handling
+
+```swift
+try expect(try write()).to.throw()
+try expect(try write()).to.throw(FileError.NoPermission)
+```
+
 #### Causing a failure
 
 ```swift

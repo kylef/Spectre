@@ -43,11 +43,9 @@ public class Expectation<T> : ExpectationType {
   }
 }
 
-/*
-public func expect<T>(@autoclosure(escaping) expression: () throws -> T?) -> Expectation<T> {
-  return Expectation(expression)
+public func expect(@autoclosure(escaping) expression: () throws -> Void?, file: String = __FILE__, line: Int = __LINE__, function: String = __FUNCTION__) -> Expectation<Void> {
+  return Expectation(file: file, line: line, function: function, expression: expression)
 }
-*/
 
 public func expect<T>(value: T?, file: String = __FILE__, line: Int = __LINE__, function: String = __FUNCTION__) -> Expectation<T> {
   return Expectation(file: file, line: line, function: function) {
@@ -100,6 +98,46 @@ extension ExpectationType where ValueType == Bool {
     let value = try expression()
     if value != false {
       throw failure("value is not false")
+    }
+  }
+}
+
+// MARK: Error Handling
+
+extension ExpectationType {
+  public func toThrow() throws {
+    var didThrow = false
+
+    do {
+      try expression()
+    } catch {
+      didThrow = true
+    }
+
+    if !didThrow {
+      throw failure("expression did not throw an error")
+    }
+  }
+
+  public func toThrow<T: Equatable>(error: T) throws {
+    var thrownError: ErrorType? = nil
+
+    do {
+      try expression()
+    } catch {
+      thrownError = error
+    }
+
+    if let thrownError = thrownError {
+      if let thrownError = thrownError as? T {
+        if error != thrownError {
+          throw failure("\(thrownError) is not \(error)")
+        }
+      } else {
+        throw failure("\(thrownError) is not \(error)")
+      }
+    } else {
+      throw failure("expression did not throw an error")
     }
   }
 }

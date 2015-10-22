@@ -9,6 +9,21 @@ describe("Expectation") {
     assert(value == "value")
   }
 
+  $0.describe("comparison to nil") {
+    let name: String? = nil
+
+    $0.it("errors when value is not nil") {
+      do {
+        try expect("kyle").to.beNil()
+        fatalError()
+      } catch {}
+    }
+
+    $0.it("passes when value is nil") {
+      try expect(name).to.beNil()
+    }
+  }
+
   $0.describe("equality extensions") {
     $0.describe("`==` operator") {
       $0.it("continues when the rhs is the same value") {
@@ -52,6 +67,30 @@ describe("Expectation") {
         } catch {
         }
       }
+    }
+  }
+
+  $0.context("with a boolean value") {
+    $0.it("can check if the value is true") {
+      try expect(true).to.beTrue()
+    }
+
+    $0.it("throws an error when the value is not true") {
+      do {
+        try expect(false).to.beTrue()
+        fatalError()
+      } catch {}
+    }
+
+    $0.it("can check if the value is false") {
+      try expect(false).to.beFalse()
+    }
+
+    $0.it("throws an error when the value is not true") {
+      do {
+        try expect(true).to.beFalse()
+        fatalError()
+      } catch {}
     }
   }
 }

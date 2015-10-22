@@ -27,6 +27,10 @@ public class Expectation<T> : ExpectationType {
   let line: Int
   let function: String
 
+  public var to: Expectation<T> {
+    return self
+  }
+
   init(file: String, line: Int, function: String, expression: () throws -> ValueType?) {
     self.file = file
     self.line = line
@@ -68,5 +72,34 @@ public func != <E: ExpectationType where E.ValueType: Equatable>(lhs: E, rhs: E.
   let value = try lhs.expression()
   if value == rhs {
     throw lhs.failure("\(value) is equal to \(rhs)")
+  }
+}
+
+// MARK: Nil
+
+extension ExpectationType {
+  public func beNil() throws {
+    let value = try expression()
+    if value != nil {
+      throw failure("value is not nil")
+    }
+  }
+}
+
+// MARK: Boolean
+
+extension ExpectationType where ValueType == Bool {
+  public func beTrue() throws {
+    let value = try expression()
+    if value != true {
+      throw failure("value is not true")
+    }
+  }
+
+  public func beFalse() throws {
+    let value = try expression()
+    if value != false {
+      throw failure("value is not false")
+    }
   }
 }

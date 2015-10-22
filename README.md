@@ -67,6 +67,14 @@ try expect(name) == "Kyle"
 try expect(name) != "Kyle"
 ```
 
+#### Truthiness
+
+```swift
+try expect(alive).to.beTrue()
+try expect(alive).to.beFalse()
+try expect(alive).to.beNil()
+```
+
 #### Causing a failure
 
 ```swift

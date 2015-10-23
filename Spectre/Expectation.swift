@@ -43,16 +43,9 @@ public class Expectation<T> : ExpectationType {
   }
 }
 
-public func expect(@autoclosure(escaping) expression: () throws -> Void?, file: String = __FILE__, line: Int = __LINE__, function: String = __FUNCTION__) -> Expectation<Void> {
+public func expect<T>(@autoclosure(escaping) expression: () throws -> T?, file: String = __FILE__, line: Int = __LINE__, function: String = __FUNCTION__) -> Expectation<T> {
   return Expectation(file: file, line: line, function: function, expression: expression)
 }
-
-public func expect<T>(value: T?, file: String = __FILE__, line: Int = __LINE__, function: String = __FUNCTION__) -> Expectation<T> {
-  return Expectation(file: file, line: line, function: function) {
-    return value
-  }
-}
-
 
 // MARK: Equatability
 

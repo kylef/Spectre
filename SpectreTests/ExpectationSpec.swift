@@ -43,8 +43,9 @@ describe("Expectation") {
       }
 
       $0.it("throws when the expectation's value is nil") {
+        let value: String? = nil
         do {
-          try expect(nil) == "value"
+          try expect(value) == "value"
           fatalError()
         } catch {
         }

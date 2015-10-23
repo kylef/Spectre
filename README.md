@@ -78,8 +78,8 @@ try expect(alive).to.beNil()
 #### Error handling
 
 ```swift
-try expect(try write()).to.throw()
-try expect(try write()).to.throw(FileError.NoPermission)
+try expect(try write()).toThrow()
+try expect(try write()).toThrow(FileError.NoPermission)
 ```
 
 #### Comparable

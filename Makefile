@@ -48,4 +48,4 @@ test-example: example
 
 
 clean:
-	@rm -fr .conche example tests $(INTEGRATION_BIN)
+	@rm -fr .conche example tests $(INTEGRATION_BINS)

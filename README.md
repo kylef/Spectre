@@ -108,6 +108,7 @@ The following projects use Spectre:
 
 | Project | CI |
 |---------|----|
+| [Stencil](https://github.com/kylef/Stencil) | ![Build Status](http://img.shields.io/circleci/project/kylef/Stencil/master.svg)](https://circleci.com/gh/kylef/Stencil) |
 | [Inquiline](https://github.com/nestproject/Inquiline) | [![Build Status](http://img.shields.io/travis/nestproject/Inquiline/master.svg?style=flat)](https://travis-ci.org/nestproject/Inquiline) |
 | [CardKit](https://github.com/kylef/CardKit) | [![Build Status](http://img.shields.io/travis/kylef/CardKit/master.svg?style=flat)](https://travis-ci.org/kylef/CardKit) |
 

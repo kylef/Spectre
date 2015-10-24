@@ -47,6 +47,10 @@ public func expect<T>(@autoclosure(escaping) expression: () throws -> T?, file: 
   return Expectation(file: file, line: line, function: function, expression: expression)
 }
 
+public func expect<T>(file: String = __FILE__, line: Int = __LINE__, function: String = __FUNCTION__, expression: () throws -> T?)  -> Expectation<T> {
+  return Expectation(file: file, line: line, function: function, expression: expression)
+}
+
 // MARK: Equatability
 
 public func == <E: ExpectationType where E.ValueType: Equatable>(lhs: E, rhs: E.ValueType) throws {

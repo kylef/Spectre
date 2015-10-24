@@ -51,16 +51,24 @@ extension CollectionType where Generator.Element == CaseFailure {
 class CountReporter : Reporter, ContextReporter {
   var depth = 0
   var successes = 0
+  var disabled = 0
   var position = [String]()
   var failures = [CaseFailure]()
 
   func printStatus() {
     failures.print()
 
-    if failures.count == 1 {
-      print("\(successes) passes and \(failures.count) failure")
+    let disabledMessage: String
+    if disabled > 0 {
+      disabledMessage = " \(disabled) skipped,"
     } else {
-      print("\(successes) passes and \(failures.count) failures")
+      disabledMessage = ""
+    }
+
+    if failures.count == 1 {
+      print("\(successes) passes\(disabledMessage) and \(failures.count) failure")
+    } else {
+      print("\(successes) passes\(disabledMessage) and \(failures.count) failures")
     }
   }
 
@@ -82,6 +90,10 @@ class CountReporter : Reporter, ContextReporter {
     ++successes
   }
 
+  func addDisabled(name: String) {
+    ++disabled
+  }
+
   func addFailure(name: String, failure: FailureType) {
     failures.append(CaseFailure(position: position + [name], failure: failure))
   }
@@ -99,6 +111,11 @@ class StandardReporter : CountReporter {
     colour(.Green, "-> \(name)")
   }
 
+  override func addDisabled(name: String) {
+    super.addDisabled(name)
+    colour(.Yellow, "-> \(name)")
+  }
+
   override func addFailure(name: String, failure: FailureType) {
     super.addFailure(name, failure: failure)
     colour(.Red, "-> \(name)")
@@ -114,6 +131,11 @@ class DotReporter : CountReporter {
   override func addSuccess(name: String) {
     super.addSuccess(name)
     print(ANSI.Green, ".", ANSI.Reset, separator: "", terminator: "")
+  }
+
+  override func addDisabled(name: String) {
+    super.addDisabled(name)
+    print(ANSI.Yellow, "S", ANSI.Reset, separator: "", terminator: "")
   }
 
   override func addFailure(name: String, failure: FailureType) {
@@ -136,6 +158,14 @@ class TapReporter : CountReporter {
 
     let message = (position + [name]).joinWithSeparator(" ")
     print("ok \(count) - \(message)")
+  }
+
+  override func addDisabled(name: String) {
+    ++count
+    super.addDisabled(name)
+
+    let message = (position + [name]).joinWithSeparator(" ")
+    print("ok \(count) - # skip \(message)")
   }
 
   override func addFailure(name: String, failure: FailureType) {

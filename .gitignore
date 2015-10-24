@@ -10,3 +10,7 @@ SpectreTests/Integration/Passing
 SpectreTests/Integration/Passing-dot-output.txt
 SpectreTests/Integration/Passing-output.txt
 SpectreTests/Integration/Passing-tap-output.txt
+SpectreTests/Integration/Disabled
+SpectreTests/Integration/Disabled-dot-output.txt
+SpectreTests/Integration/Disabled-output.txt
+SpectreTests/Integration/Disabled-tap-output.txt

@@ -1,0 +1,3 @@
+.S
+
+1 passes 1 skipped, and 0 failures

@@ -8,8 +8,8 @@ for var in "$@"; do
 
   ./$var > $var-output.txt
   if [ $? != 0 ]; then
-    if [ $var = "SpectreTests/Integration/Passing" ]; then
-      echo "    - Passing Integration Failed"
+    if [ $var != "SpectreTests/Integration/Failing" ]; then
+      echo "    - Integration Failed"
       EXIT_CODE=1
     fi
   elif [ $var = "SpectreTests/Integration/Failing" ]; then
@@ -18,8 +18,8 @@ for var in "$@"; do
   fi
   ./$var -t > $var-dot-output.txt
   if [ $? != 0 ]; then
-    if [ $var = "SpectreTests/Integration/Passing" ]; then
-      echo "    - Passing Dot Integration Failed"
+    if [ $var != "SpectreTests/Integration/Failing" ]; then
+      echo "    - Dot Integration Failed"
       EXIT_CODE=1
     fi
   elif [ $var = "SpectreTests/Integration/Failing" ]; then
@@ -28,8 +28,8 @@ for var in "$@"; do
   fi
   ./$var --tap > $var-tap-output.txt
   if [ $? != 0 ]; then
-    if [ $var = "SpectreTests/Integration/Passing" ]; then
-      echo "    - Passing Tap Integration Failed"
+    if [ $var != "SpectreTests/Integration/Failing" ]; then
+      echo "    - Tap Integration Failed"
       EXIT_CODE=1
     fi
   elif [ $var = "SpectreTests/Integration/Failing" ]; then

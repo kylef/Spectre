@@ -6,7 +6,7 @@ SOURCES := Expectation Context GlobalContext Case Failure Reporter Reporters Glo
 SOURCE_FILES = $(foreach file,$(SOURCES),Spectre/$(file).swift)
 TEST_SOURCES := ExpectationSpec FailureSpec
 TEST_SOURCE_FILES = $(foreach file,$(TEST_SOURCES),SpectreTests/$(file).swift)
-INTEGRATION = Passing Failing
+INTEGRATION = Passing Disabled Failing
 INTEGRATION_BINS = $(foreach file,$(INTEGRATION),SpectreTests/Integration/$(file))
 
 all: spectre tests integration example

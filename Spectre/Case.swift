@@ -4,14 +4,21 @@ protocol CaseType {
 
 class Case : CaseType {
   let name:String
+  let disabled: Bool
   let closure:() throws -> ()
 
-  init(name:String, closure:() throws -> ()) {
+  init(name:String, disabled: Bool = false, closure:() throws -> ()) {
     self.name = name
+    self.disabled = disabled
     self.closure = closure
   }
 
   func run(reporter:ContextReporter) {
+    if disabled {
+      reporter.addDisabled(name)
+      return
+    }
+
     do {
       try closure()
       reporter.addSuccess(name)

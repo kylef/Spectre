@@ -1,10 +1,24 @@
 public protocol ContextType {
-  func context(name:String, closure:ContextType -> ())
-  func describe(name:String, closure:ContextType -> ())
-  func before(closure:() -> ())
-  func after(closure:() -> ())
-  func it(name:String, closure:() throws -> ())
-  func xit(name:String, closure:() throws -> ())
+  /// Creates a new sub-context
+  func context(name: String, closure: ContextType -> ())
+
+  /// Creates a new sub-context
+  func describe(name: String, closure: ContextType -> ())
+
+  /// Creates a new disabled sub-context
+  func xcontext(name: String, closure: ContextType -> ())
+
+  /// Creates a new disabled sub-context
+  func xdescribe(name: String, closure: ContextType -> ())
+
+  func before(closure: () -> ())
+  func after(closure: () -> ())
+
+  /// Adds a new test case
+  func it(name: String, closure:() throws -> ())
+
+  /// Adds a disabled test case
+  func xit(name: String, closure:() throws -> ())
 }
 
 class Context : ContextType, CaseType {

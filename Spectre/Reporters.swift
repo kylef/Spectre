@@ -1,6 +1,7 @@
 import Darwin.libc
 import Foundation // 😱
 
+
 enum ANSI : String, CustomStringConvertible {
   case Red = "\u{001B}[0;31m"
   case Green = "\u{001B}[0;32m"
@@ -17,6 +18,7 @@ enum ANSI : String, CustomStringConvertible {
     return ""
   }
 }
+
 
 struct CaseFailure {
   let position: [String]
@@ -47,6 +49,7 @@ extension CollectionType where Generator.Element == CaseFailure {
     }
   }
 }
+
 
 class CountReporter : Reporter, ContextReporter {
   var depth = 0
@@ -99,6 +102,8 @@ class CountReporter : Reporter, ContextReporter {
   }
 }
 
+
+/// Standard reporter
 class StandardReporter : CountReporter {
   override func report(name: String, @noescape closure: ContextReporter -> ()) {
     colour(.Bold, "-> \(name)")
@@ -127,6 +132,8 @@ class StandardReporter : CountReporter {
   }
 }
 
+
+/// Simple reporter that outputs minimal . F and S.
 class DotReporter : CountReporter {
   override func addSuccess(name: String) {
     super.addSuccess(name)
@@ -149,6 +156,9 @@ class DotReporter : CountReporter {
   }
 }
 
+
+/// Test Anything Protocol compatible reporter
+/// http://testanything.org
 class TapReporter : CountReporter {
   var count = 0
 

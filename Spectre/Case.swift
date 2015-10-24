@@ -1,5 +1,6 @@
 protocol CaseType {
-  func run(reporter:ContextReporter)
+  /// Run a test case in the given reporter
+  func run(reporter: ContextReporter)
 }
 
 class Case : CaseType {
@@ -29,4 +30,3 @@ class Case : CaseType {
     }
   }
 }
-

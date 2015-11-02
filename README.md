@@ -1,6 +1,6 @@
 # Spectre
 
-[![Build Status](http://img.shields.io/travis/kylef/Spectre/master.svg?style=flat)](https://travis-ci.org/kylef/Spectre)
+[![Build Status](https://img.shields.io/travis/kylef/Spectre/master.svg?style=flat)](https://travis-ci.org/kylef/Spectre)
 
 [*Sp*ecial *E*xecutive for *C*ommand-line *T*est *R*unning and
 *E*xecution](https://en.wikipedia.org/wiki/SPECTRE).
@@ -108,15 +108,15 @@ The following projects use Spectre:
 
 | Project | CI |
 |---------|----|
-| [Stencil](https://github.com/kylef/Stencil) | [![Build Status](http://img.shields.io/circleci/project/kylef/Stencil/master.svg)](https://circleci.com/gh/kylef/Stencil) |
-| [Inquiline](https://github.com/nestproject/Inquiline) | [![Build Status](http://img.shields.io/travis/nestproject/Inquiline/master.svg?style=flat)](https://travis-ci.org/nestproject/Inquiline) |
-| [CardKit](https://github.com/kylef/CardKit) | [![Build Status](http://img.shields.io/travis/kylef/CardKit/master.svg?style=flat)](https://travis-ci.org/kylef/CardKit) |
+| [Stencil](https://github.com/kylef/Stencil) | [![Build Status](https://img.shields.io/circleci/project/kylef/Stencil/master.svg)](https://circleci.com/gh/kylef/Stencil) |
+| [Inquiline](https://github.com/nestproject/Inquiline) | [![Build Status](https://img.shields.io/travis/nestproject/Inquiline/master.svg?style=flat)](https://travis-ci.org/nestproject/Inquiline) |
+| [CardKit](https://github.com/kylef/CardKit) | [![Build Status](https://img.shields.io/travis/kylef/CardKit/master.svg?style=flat)](https://travis-ci.org/kylef/CardKit) |
 
 ## Installation / Running
 
 ### Conche
 
-[Conche](https://github.com/kylef/Conche) build system has integrated support
+[Conche](https://github.com/Conche/Conche) build system has integrated support
 for Spectre. You can simply add a `test_spec` to your Conche podspec depending
 on Spectre and it will run your tests with `conche test`.
 

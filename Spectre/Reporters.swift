@@ -1,5 +1,9 @@
-import Darwin.libc
-import Foundation // 😱
+#if os(Linux)
+import Glibc
+#else
+import Darwin.C
+import Foundation
+#endif
 
 
 enum ANSI : String, CustomStringConvertible {
@@ -38,6 +42,7 @@ extension CollectionType where Generator.Element == CaseFailure {
       let file = "\(failure.failure.file):\(failure.failure.line)"
       Swift.print("  \(ANSI.Bold)\(file)\(ANSI.Reset) \(ANSI.Yellow)\(failure.failure.reason)\(ANSI.Reset)\n")
 
+#if !os(Linux)
       if let contents = try? NSString(contentsOfFile: failure.failure.file, encoding: NSUTF8StringEncoding) as String {
         let lines = contents.componentsSeparatedByCharactersInSet(NSCharacterSet.newlineCharacterSet())
         let line = lines[failure.failure.line - 1]
@@ -46,6 +51,7 @@ extension CollectionType where Generator.Element == CaseFailure {
         Swift.print("  \(trimmedLine)")
         Swift.print("  ```")
       }
+#endif
     }
   }
 }

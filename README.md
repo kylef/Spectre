@@ -6,8 +6,7 @@
 *E*xecution](https://en.wikipedia.org/wiki/SPECTRE).
 
 A behavior-driven development (BDD) framework and test runner for Swift projects
-and playgrounds. It is Foundation-free and Linux-ready!
-
+and playgrounds. It's compatible with both OS X and Linux.
 
 ## Usage
 

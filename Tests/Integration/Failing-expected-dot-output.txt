@@ -1,7 +1,7 @@
 F
 
  a person named kyle is Kyle
-  SpectreTests/Integration/Failing.swift:10 Katie is not equal to Kyle
+  Tests/Integration/Failing.swift:10 Katie is not equal to Kyle
 
   ```
   try expect(person) == "Kyle"

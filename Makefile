@@ -5,9 +5,9 @@ SWIFTC := swiftc
 SOURCES := Expectation Context GlobalContext Case Failure Reporter Reporters Global
 SOURCE_FILES = $(foreach file,$(SOURCES),Spectre/$(file).swift)
 TEST_SOURCES := ExpectationSpec FailureSpec
-TEST_SOURCE_FILES = $(foreach file,$(TEST_SOURCES),SpectreTests/$(file).swift)
+TEST_SOURCE_FILES = $(foreach file,$(TEST_SOURCES),Tests/$(file).swift)
 INTEGRATION = Passing Disabled Failing
-INTEGRATION_BINS = $(foreach file,$(INTEGRATION),SpectreTests/Integration/$(file))
+INTEGRATION_BINS = $(foreach file,$(INTEGRATION),Tests/Integration/$(file))
 
 all: spectre tests integration example
 spectre: $(LIBDIR)/libSpectre.dylib
@@ -18,14 +18,15 @@ $(LIBDIR)/libSpectre.dylib: $(SOURCE_FILES)
 	@mkdir -p $(MODULESDIR) $(LIBDIR)
 	@$(SWIFTC) $(SWIFTFLAGS) -module-name Spectre -emit-module -emit-library -emit-module-path $(MODULESDIR)/Spectre.swiftmodule -o $(LIBDIR)/libSpectre.dylib Spectre/*.swift
 
-SpectreTests/Integration/%: spectre SpectreTests/Integration/%.swift
+Tests/Integration/%: spectre Tests/Integration/%.swift
 	@echo "Building $* Integration"
-	@$(SWIFTC) $(SWIFTFLAGS) -lSpectre -module-name Integration$* -o SpectreTests/Integration/$* SpectreTests/Integration/$*.swift
+	@$(SWIFTC) $(SWIFTFLAGS) -lSpectre -module-name Integration$* -o Tests/Integration/$* Tests/Integration/$*.swift
 
+.PHONY: tests
 tests: spectre $(TEST_SOURCE_FILES)
 	@echo "Building Tests"
 	@cat $(TEST_SOURCE_FILES) > tests.swift
-	@$(SWIFTC) $(SWIFTFLAGS) -lSpectre -module-name SpectreTests -o tests tests.swift
+	@$(SWIFTC) $(SWIFTFLAGS) -lSpectre -module-name Tests -o run-tests tests.swift
 
 example: $(LIBDIR)/libSpectre.dylib Example.swift
 	@echo "Building Example"
@@ -33,12 +34,12 @@ example: $(LIBDIR)/libSpectre.dylib Example.swift
 
 test: tests test-example test-integration
 	@echo "Running Tests"
-	@./tests
+	@./run-tests
 	@echo
 
 test-integration: integration
 	@echo "Running Integration"
-	@./SpectreTests/Integration/run.sh $(INTEGRATION_BINS)
+	@./Tests/Integration/run.sh $(INTEGRATION_BINS)
 	@echo
 
 test-example: example

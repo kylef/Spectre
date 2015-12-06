@@ -10,6 +10,6 @@
     "type": "BSD",
     "file": "LICENSE"
   },
-  "source_files": ["Spectre/*.swift"]
+  "source_files": ["Sources/*.swift"]
 }
 

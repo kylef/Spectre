@@ -1,4 +1,9 @@
-import Darwin
+#if os(Linux)
+import Glibc
+#else
+import Darwin.C
+#endif
+
 
 let globalContext: GlobalContext = {
   atexit { run() }
@@ -27,10 +32,9 @@ public func it(name:String, closure:() throws -> ()) {
   run(reporter)
 }
 
-@noreturn public func run(reporter:Reporter) {
+@noreturn public func run(reporter: Reporter) {
   if globalContext.run(reporter) {
     exit(0)
   }
   exit(1)
 }
-

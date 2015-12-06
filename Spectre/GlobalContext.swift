@@ -1,6 +1,3 @@
-import Darwin
-
-
 class GlobalContext {
   var cases = [CaseType]()
 
@@ -22,4 +19,3 @@ class GlobalContext {
     }
   }
 }
-

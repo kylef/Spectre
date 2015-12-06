@@ -1,3 +1,0 @@
-not ok 1 - a person named kyle is Kyle
-# Katie is not equal to Kyle from SpectreTests/Integration/Failing.swift:10
-1..1

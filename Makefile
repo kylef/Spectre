@@ -3,7 +3,7 @@ LIBDIR = .conche/lib
 SWIFTFLAGS = -I $(MODULESDIR) -L $(LIBDIR)
 SWIFTC := swiftc
 SOURCES := Expectation Context GlobalContext Case Failure Reporter Reporters Global
-SOURCE_FILES = $(foreach file,$(SOURCES),Spectre/$(file).swift)
+SOURCE_FILES = $(foreach file,$(SOURCES),Sources/$(file).swift)
 TEST_SOURCES := ExpectationSpec FailureSpec
 TEST_SOURCE_FILES = $(foreach file,$(TEST_SOURCES),Tests/$(file).swift)
 INTEGRATION = Passing Disabled Failing
@@ -16,7 +16,7 @@ integration: $(INTEGRATION_BINS)
 $(LIBDIR)/libSpectre.dylib: $(SOURCE_FILES)
 	@echo "Building Spectre"
 	@mkdir -p $(MODULESDIR) $(LIBDIR)
-	@$(SWIFTC) $(SWIFTFLAGS) -module-name Spectre -emit-module -emit-library -emit-module-path $(MODULESDIR)/Spectre.swiftmodule -o $(LIBDIR)/libSpectre.dylib Spectre/*.swift
+	@$(SWIFTC) $(SWIFTFLAGS) -module-name Spectre -emit-module -emit-library -emit-module-path $(MODULESDIR)/Spectre.swiftmodule -o $(LIBDIR)/libSpectre.dylib Sources/*.swift
 
 Tests/Integration/%: spectre Tests/Integration/%.swift
 	@echo "Building $* Integration"

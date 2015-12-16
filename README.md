@@ -113,6 +113,10 @@ The following projects use Spectre:
 
 ## Installation / Running
 
+### SPM
+
+Check out [spectre-build](http://github.com/kylef/spectre-build).
+
 ### Conche
 
 [Conche](https://github.com/Conche/Conche) build system has integrated support

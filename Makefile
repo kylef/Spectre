@@ -9,7 +9,7 @@ TEST_SOURCE_FILES = $(foreach file,$(TEST_SOURCES),Tests/$(file).swift)
 INTEGRATION = Passing Disabled Failing
 INTEGRATION_BINS = $(foreach file,$(INTEGRATION),Tests/Integration/$(file))
 
-all: spectre tests integration example
+all: spectre tests integration Example/example
 spectre: $(LIBDIR)/libSpectre.dylib
 integration: $(INTEGRATION_BINS)
 
@@ -28,9 +28,9 @@ tests: spectre $(TEST_SOURCE_FILES)
 	@cat $(TEST_SOURCE_FILES) > tests.swift
 	@$(SWIFTC) $(SWIFTFLAGS) -lSpectre -module-name Tests -o run-tests tests.swift
 
-example: $(LIBDIR)/libSpectre.dylib Example.swift
+Example/example: $(LIBDIR)/libSpectre.dylib Example/example.swift
 	@echo "Building Example"
-	@$(SWIFTC) $(SWIFTFLAGS) -lSpectre -module-name Example -o example Example.swift
+	@$(SWIFTC) $(SWIFTFLAGS) -lSpectre -module-name Example -o Example/example Example/example.swift
 
 test: tests test-example test-integration
 	@echo "Running Tests"
@@ -42,11 +42,10 @@ test-integration: integration
 	@./Tests/Integration/run.sh $(INTEGRATION_BINS)
 	@echo
 
-test-example: example
+test-example: Example/example
 	@echo "Running Example"
-	@./example
+	@./Example/example
 	@echo
 
-
 clean:
-	@rm -fr .conche example tests $(INTEGRATION_BINS)
+	@rm -fr .conche Example/example tests $(INTEGRATION_BINS)

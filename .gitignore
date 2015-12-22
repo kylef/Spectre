@@ -1,6 +1,6 @@
 /.build/
 .conche/
-example
+Example/example
 tests
 tests.swift
 Tests/Integration/Failing

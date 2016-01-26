@@ -100,7 +100,7 @@ class CountReporter : Reporter, ContextReporter {
   }
 
   func addDisabled(name: String) {
-    disabled -= 1
+    disabled += 1
   }
 
   func addFailure(name: String, failure: FailureType) {

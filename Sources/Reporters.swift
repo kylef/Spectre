@@ -88,19 +88,19 @@ class CountReporter : Reporter, ContextReporter {
   }
 
   func report(name: String, @noescape closure: ContextReporter -> ()) {
-    ++depth
+    depth += 1
     position.append(name)
     closure(self)
-    --depth
+    depth -= 1
     position.removeLast()
   }
 
   func addSuccess(name: String) {
-    ++successes
+    successes += 1
   }
 
   func addDisabled(name: String) {
-    ++disabled
+    disabled += 1
   }
 
   func addFailure(name: String, failure: FailureType) {
@@ -169,7 +169,7 @@ class TapReporter : CountReporter {
   var count = 0
 
   override func addSuccess(name: String) {
-    ++count
+    count += 1
     super.addSuccess(name)
 
     let message = (position + [name]).joinWithSeparator(" ")
@@ -177,7 +177,7 @@ class TapReporter : CountReporter {
   }
 
   override func addDisabled(name: String) {
-    ++count
+    count += 1
     super.addDisabled(name)
 
     let message = (position + [name]).joinWithSeparator(" ")
@@ -185,7 +185,7 @@ class TapReporter : CountReporter {
   }
 
   override func addFailure(name: String, failure: FailureType) {
-    ++count
+    count += 1
     super.addFailure(name, failure: failure)
 
     let message = (position + [name]).joinWithSeparator(" ")

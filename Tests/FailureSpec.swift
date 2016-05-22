@@ -5,7 +5,7 @@ describe("failure") {
     var didFail = false
 
     do {
-      throw failure("it's broken")
+      throw failure(reason: "it's broken")
     } catch {
       didFail = true
     }

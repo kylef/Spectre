@@ -96,7 +96,7 @@ describe("Expectation") {
   }
 
   $0.describe("error handling") {
-    enum FileError : ErrorType {
+    enum FileError : ErrorProtocol {
       case NotFound
       case NoPermission
     }

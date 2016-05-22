@@ -1,24 +1,24 @@
 public protocol ContextType {
   /// Creates a new sub-context
-  func context(name: String, closure: ContextType -> ())
+  func context(_ name: String, closure: ContextType -> ())
 
   /// Creates a new sub-context
-  func describe(name: String, closure: ContextType -> ())
+  func describe(_ name: String, closure: ContextType -> ())
 
   /// Creates a new disabled sub-context
-  func xcontext(name: String, closure: ContextType -> ())
+  func xcontext(_ name: String, closure: ContextType -> ())
 
   /// Creates a new disabled sub-context
-  func xdescribe(name: String, closure: ContextType -> ())
+  func xdescribe(_ name: String, closure: ContextType -> ())
 
   func before(closure: () -> ())
   func after(closure: () -> ())
 
   /// Adds a new test case
-  func it(name: String, closure:() throws -> ())
+  func it(_ name: String, closure:() throws -> ())
 
   /// Adds a disabled test case
-  func xit(name: String, closure:() throws -> ())
+  func xit(_ name: String, closure:() throws -> ())
 }
 
 class Context : ContextType, CaseType {
@@ -33,31 +33,31 @@ class Context : ContextType, CaseType {
   var befores = [Before]()
   var afters = [After]()
 
-  init(name:String, disabled: Bool = false, parent: Context? = nil) {
+  init(name: String, disabled: Bool = false, parent: Context? = nil) {
     self.name = name
     self.disabled = disabled
     self.parent = parent
   }
 
-  func context(name:String, closure:ContextType -> ()) {
+  func context(_ name: String, closure: ContextType -> ()) {
     let context = Context(name: name, parent: self)
     closure(context)
     cases.append(context)
   }
 
-  func describe(name:String, closure:ContextType -> ()) {
+  func describe(_ name: String, closure: ContextType -> ()) {
     let context = Context(name: name, parent: self)
     closure(context)
     cases.append(context)
   }
 
-  func xcontext(name:String, closure:ContextType -> ()) {
+  func xcontext(_ name: String, closure: ContextType -> ()) {
     let context = Context(name: name, disabled: true, parent: self)
     closure(context)
     cases.append(context)
   }
 
-  func xdescribe(name:String, closure:ContextType -> ()) {
+  func xdescribe(_ name: String, closure: ContextType -> ()) {
     let context = Context(name: name, disabled: true, parent: self)
     closure(context)
     cases.append(context)
@@ -71,11 +71,11 @@ class Context : ContextType, CaseType {
     afters.append(closure)
   }
 
-  func it(name:String, closure:() throws -> ()) {
+  func it(_ name: String, closure: () throws -> ()) {
     cases.append(Case(name: name, closure: closure))
   }
 
-  func xit(name: String, closure:() throws -> ()) {
+  func xit(_ name: String, closure: () throws -> ()) {
     cases.append(Case(name: name, disabled: true, closure: closure))
   }
 
@@ -98,7 +98,7 @@ class Context : ContextType, CaseType {
     reporter.report(name) { reporter in
       cases.forEach {
         runBefores()
-        $0.run(reporter)
+        $0.run(reporter: reporter)
         runAfters()
       }
     }

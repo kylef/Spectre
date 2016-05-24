@@ -1,13 +1,13 @@
 class GlobalContext {
   var cases = [CaseType]()
 
-  func describe(_ name: String, closure:ContextType -> ()) {
+  func describe(_ name: String, closure: (ContextType) -> Void) {
     let context = Context(name: name)
     closure(context)
     cases.append(context)
   }
 
-  func it(_ name: String, closure:() throws -> ()) {
+  func it(_ name: String, closure: () throws -> Void) {
     cases.append(Case(name: name, closure: closure))
   }
 

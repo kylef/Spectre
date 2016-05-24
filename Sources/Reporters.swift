@@ -83,13 +83,13 @@ class CountReporter : Reporter, ContextReporter {
     }
   }
 
-  func report(@noescape closure: ContextReporter -> ()) -> Bool {
+  func report(closure: @noescape (ContextReporter) -> Void) -> Bool {
     closure(self)
     printStatus()
     return failures.isEmpty
   }
 
-  func report(_ name: String, @noescape closure: ContextReporter -> ()) {
+  func report(_ name: String, closure: @noescape (ContextReporter) -> Void) {
     depth += 1
     position.append(name)
     closure(self)
@@ -113,7 +113,7 @@ class CountReporter : Reporter, ContextReporter {
 
 /// Standard reporter
 class StandardReporter : CountReporter {
-  override func report(_ name: String, @noescape closure: ContextReporter -> ()) {
+  override func report(_ name: String, closure: @noescape (ContextReporter) -> Void) {
     colour(.Bold, "-> \(name)")
     super.report(name, closure: closure)
     print("")

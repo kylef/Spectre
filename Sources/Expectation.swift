@@ -43,7 +43,7 @@ public class Expectation<T> : ExpectationType {
   }
 }
 
-public func expect<T>(@autoclosure(escaping) _ expression: () throws -> T?, file: String = #file, line: Int = #line, function: String = #function) -> Expectation<T> {
+public func expect<T>(_ expression: @autoclosure(escaping) () throws -> T?, file: String = #file, line: Int = #line, function: String = #function) -> Expectation<T> {
   return Expectation(file: file, line: line, function: function, expression: expression)
 }
 

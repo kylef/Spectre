@@ -10,11 +10,11 @@ let globalContext: GlobalContext = {
   return GlobalContext()
 }()
 
-public func describe(_ name: String, closure: ContextType -> ()) {
+public func describe(_ name: String, closure: (ContextType) -> Void) {
   globalContext.describe(name, closure: closure)
 }
 
-public func it(_ name: String, closure: () throws -> ()) {
+public func it(_ name: String, closure: () throws -> Void) {
   globalContext.it(name, closure: closure)
 }
 

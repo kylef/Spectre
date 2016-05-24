@@ -20,7 +20,7 @@ public func it(_ name: String, closure: () throws -> Void) {
 
 @noreturn public func run() {
   let reporter: Reporter
-
+  
   if Process.arguments.contains("--tap") {
     reporter = TapReporter()
   } else if Process.arguments.contains("-t") {
@@ -28,7 +28,7 @@ public func it(_ name: String, closure: () throws -> Void) {
   } else {
     reporter = StandardReporter()
   }
-
+  
   run(reporter: reporter)
 }
 

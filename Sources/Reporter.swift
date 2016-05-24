@@ -1,17 +1,17 @@
 public protocol Reporter {
   /// Create a new report
-  func report(@noescape closure:ContextReporter -> ()) -> Bool
+  func report(closure: @noescape (ContextReporter) -> Void) -> Bool
 }
 
 public protocol ContextReporter {
-  func report(name:String, @noescape closure:ContextReporter -> ())
+  func report(_ name: String, closure: @noescape (ContextReporter) -> Void)
 
   /// Add a passing test case
-  func addSuccess(name:String)
+  func addSuccess(_ name: String)
 
   /// Add a disabled test case
-  func addDisabled(name: String)
+  func addDisabled(_ name: String)
 
   /// Adds a failing test case
-  func addFailure(name:String, failure: FailureType)
+  func addFailure(_ name: String, failure: FailureType)
 }

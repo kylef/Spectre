@@ -1,81 +1,81 @@
 public protocol ContextType {
   /// Creates a new sub-context
-  func context(name: String, closure: ContextType -> ())
+  func context(_ name: String, closure: (ContextType) -> Void)
 
   /// Creates a new sub-context
-  func describe(name: String, closure: ContextType -> ())
+  func describe(_ name: String, closure: (ContextType) -> Void)
 
   /// Creates a new disabled sub-context
-  func xcontext(name: String, closure: ContextType -> ())
+  func xcontext(_ name: String, closure: (ContextType) -> Void)
 
   /// Creates a new disabled sub-context
-  func xdescribe(name: String, closure: ContextType -> ())
+  func xdescribe(_ name: String, closure: (ContextType) -> Void)
 
-  func before(closure: () -> ())
-  func after(closure: () -> ())
+  func before(closure: () -> Void)
+  func after(closure: () -> Void)
 
   /// Adds a new test case
-  func it(name: String, closure:() throws -> ())
+  func it(_ name: String, closure: () throws -> Void)
 
   /// Adds a disabled test case
-  func xit(name: String, closure:() throws -> ())
+  func xit(_ name: String, closure: () throws -> Void)
 }
 
 class Context : ContextType, CaseType {
-  let name:String
+  let name: String
   let disabled: Bool
   private weak var parent: Context?
   var cases = [CaseType]()
 
-  typealias Before = (() -> ())
-  typealias After = (() -> ())
+  typealias Before = (() -> Void)
+  typealias After = (() -> Void)
 
   var befores = [Before]()
   var afters = [After]()
 
-  init(name:String, disabled: Bool = false, parent: Context? = nil) {
+  init(name: String, disabled: Bool = false, parent: Context? = nil) {
     self.name = name
     self.disabled = disabled
     self.parent = parent
   }
 
-  func context(name:String, closure:ContextType -> ()) {
+  func context(_ name: String, closure: (ContextType) -> Void) {
     let context = Context(name: name, parent: self)
     closure(context)
     cases.append(context)
   }
 
-  func describe(name:String, closure:ContextType -> ()) {
+  func describe(_ name: String, closure: (ContextType) -> Void) {
     let context = Context(name: name, parent: self)
     closure(context)
     cases.append(context)
   }
 
-  func xcontext(name:String, closure:ContextType -> ()) {
+  func xcontext(_ name: String, closure: (ContextType) -> Void) {
     let context = Context(name: name, disabled: true, parent: self)
     closure(context)
     cases.append(context)
   }
 
-  func xdescribe(name:String, closure:ContextType -> ()) {
+  func xdescribe(_ name: String, closure: (ContextType) -> Void) {
     let context = Context(name: name, disabled: true, parent: self)
     closure(context)
     cases.append(context)
   }
 
-  func before(closure:() -> ()) {
+  func before(closure: () -> Void) {
     befores.append(closure)
   }
 
-  func after(closure:() -> ()) {
+  func after(closure: () -> Void) {
     afters.append(closure)
   }
 
-  func it(name:String, closure:() throws -> ()) {
+  func it(_ name: String, closure: () throws -> Void) {
     cases.append(Case(name: name, closure: closure))
   }
 
-  func xit(name: String, closure:() throws -> ()) {
+  func xit(_ name: String, closure: () throws -> Void) {
     cases.append(Case(name: name, disabled: true, closure: closure))
   }
 
@@ -98,7 +98,7 @@ class Context : ContextType, CaseType {
     reporter.report(name) { reporter in
       cases.forEach {
         runBefores()
-        $0.run(reporter)
+        $0.run(reporter: reporter)
         runAfters()
       }
     }

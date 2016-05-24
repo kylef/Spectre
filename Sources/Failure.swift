@@ -1,4 +1,4 @@
-public protocol FailureType : ErrorType {
+public protocol FailureType : ErrorProtocol {
   var function: String { get }
   var file: String { get }
   var line: Int { get }
@@ -13,7 +13,7 @@ struct Failure : FailureType {
   let file: String
   let line: Int
 
-  init(reason: String, function: String = __FUNCTION__, file: String = __FILE__, line: Int = __LINE__) {
+  init(reason: String, function: String = #function, file: String = #file, line: Int = #line) {
     self.reason = reason
     self.function = function
     self.file = file
@@ -21,6 +21,6 @@ struct Failure : FailureType {
   }
 }
 
-public func failure(reason: String? = nil, function: String = __FUNCTION__, file: String = __FILE__, line: Int = __LINE__) -> FailureType {
+public func failure(reason: String? = nil, function: String = #function, file: String = #file, line: Int = #line) -> FailureType {
   return Failure(reason: reason ?? "-", function: function, file: file, line: line)
 }

@@ -1,5 +1,5 @@
 public protocol ExpectationType {
-  typealias ValueType
+  associatedtype ValueType
   var expression: () throws -> ValueType? { get }
   func failure(reason: String) -> FailureType
 }
@@ -43,11 +43,11 @@ public class Expectation<T> : ExpectationType {
   }
 }
 
-public func expect<T>(@autoclosure(escaping) expression: () throws -> T?, file: String = __FILE__, line: Int = __LINE__, function: String = __FUNCTION__) -> Expectation<T> {
+public func expect<T>(_ expression: @autoclosure(escaping) () throws -> T?, file: String = #file, line: Int = #line, function: String = #function) -> Expectation<T> {
   return Expectation(file: file, line: line, function: function, expression: expression)
 }
 
-public func expect<T>(file: String = __FILE__, line: Int = __LINE__, function: String = __FUNCTION__, expression: () throws -> T?)  -> Expectation<T> {
+public func expect<T>(file: String = #file, line: Int = #line, function: String = #function, expression: () throws -> T?)  -> Expectation<T> {
   return Expectation(file: file, line: line, function: function, expression: expression)
 }
 
@@ -56,17 +56,17 @@ public func expect<T>(file: String = __FILE__, line: Int = __LINE__, function: S
 public func == <E: ExpectationType where E.ValueType: Equatable>(lhs: E, rhs: E.ValueType) throws {
   if let value = try lhs.expression() {
     if value != rhs {
-      throw lhs.failure("\(value) is not equal to \(rhs)")
+      throw lhs.failure(reason: "\(value) is not equal to \(rhs)")
     }
   } else {
-    throw lhs.failure("given value is nil")
+    throw lhs.failure(reason: "given value is nil")
   }
 }
 
 public func != <E: ExpectationType where E.ValueType: Equatable>(lhs: E, rhs: E.ValueType) throws {
   let value = try lhs.expression()
   if value == rhs {
-    throw lhs.failure("\(value) is equal to \(rhs)")
+    throw lhs.failure(reason: "\(value) is equal to \(rhs)")
   }
 }
 
@@ -76,7 +76,7 @@ extension ExpectationType {
   public func beNil() throws {
     let value = try expression()
     if value != nil {
-      throw failure("value is not nil")
+      throw failure(reason: "value is not nil")
     }
   }
 }
@@ -87,14 +87,14 @@ extension ExpectationType where ValueType == Bool {
   public func beTrue() throws {
     let value = try expression()
     if value != true {
-      throw failure("value is not true")
+      throw failure(reason: "value is not true")
     }
   }
 
   public func beFalse() throws {
     let value = try expression()
     if value != false {
-      throw failure("value is not false")
+      throw failure(reason: "value is not false")
     }
   }
 }
@@ -112,12 +112,12 @@ extension ExpectationType {
     }
 
     if !didThrow {
-      throw failure("expression did not throw an error")
+      throw failure(reason: "expression did not throw an error")
     }
   }
 
-  public func toThrow<T: Equatable>(error: T) throws {
-    var thrownError: ErrorType? = nil
+  public func toThrow<T: Equatable>(_ error: T) throws {
+    var thrownError: ErrorProtocol? = nil
 
     do {
       try expression()
@@ -128,13 +128,13 @@ extension ExpectationType {
     if let thrownError = thrownError {
       if let thrownError = thrownError as? T {
         if error != thrownError {
-          throw failure("\(thrownError) is not \(error)")
+          throw failure(reason: "\(thrownError) is not \(error)")
         }
       } else {
-        throw failure("\(thrownError) is not \(error)")
+        throw failure(reason: "\(thrownError) is not \(error)")
       }
     } else {
-      throw failure("expression did not throw an error")
+      throw failure(reason: "expression did not throw an error")
     }
   }
 }
@@ -144,27 +144,27 @@ extension ExpectationType {
 public func > <E: ExpectationType where E.ValueType: Comparable>(lhs: E, rhs: E.ValueType) throws {
   let value = try lhs.expression()
   guard value > rhs else {
-    throw lhs.failure("\(value) is not more than \(rhs)")
+    throw lhs.failure(reason: "\(value) is not more than \(rhs)")
   }
 }
 
 public func >= <E: ExpectationType where E.ValueType: Comparable>(lhs: E, rhs: E.ValueType) throws {
   let value = try lhs.expression()
   guard value >= rhs else {
-    throw lhs.failure("\(value) is not more than or equal to \(rhs)")
+    throw lhs.failure(reason: "\(value) is not more than or equal to \(rhs)")
   }
 }
 
 public func < <E: ExpectationType where E.ValueType: Comparable>(lhs: E, rhs: E.ValueType) throws {
   let value = try lhs.expression()
   guard value < rhs else {
-    throw lhs.failure("\(value) is not less than \(rhs)")
+    throw lhs.failure(reason: "\(value) is not less than \(rhs)")
   }
 }
 
 public func <= <E: ExpectationType where E.ValueType: Comparable>(lhs: E, rhs: E.ValueType) throws {
   let value = try lhs.expression()
   guard value <= rhs else {
-    throw lhs.failure("\(value) is not less than or equal to \(rhs)")
+    throw lhs.failure(reason: "\(value) is not less than or equal to \(rhs)")
   }
 }

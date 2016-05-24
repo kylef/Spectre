@@ -34,23 +34,25 @@ struct CaseFailure {
   }
 }
 
-extension CollectionType where Generator.Element == CaseFailure {
+extension Collection where Iterator.Element == CaseFailure {
   func print() {
     for failure in self {
-      let name = failure.position.joinWithSeparator(" ")
+      let name = failure.position.joined(separator: " ")
       Swift.print(ANSI.Red, name)
       let file = "\(failure.failure.file):\(failure.failure.line)"
       Swift.print("  \(ANSI.Bold)\(file)\(ANSI.Reset) \(ANSI.Yellow)\(failure.failure.reason)\(ANSI.Reset)\n")
 
 #if !os(Linux)
+/* DISABLED TODO
       if let contents = try? NSString(contentsOfFile: failure.failure.file, encoding: NSUTF8StringEncoding) as String {
-        let lines = contents.componentsSeparatedByCharactersInSet(NSCharacterSet.newlineCharacterSet())
+        let lines = contents.componentsSeparated(by: NSCharacterSet.newlineCharacterSet())
         let line = lines[failure.failure.line - 1]
         let trimmedLine = line.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceCharacterSet())
         Swift.print("  ```")
         Swift.print("  \(trimmedLine)")
         Swift.print("  ```")
       }
+*/
 #endif
     }
   }
@@ -81,13 +83,13 @@ class CountReporter : Reporter, ContextReporter {
     }
   }
 
-  func report(@noescape closure: ContextReporter -> ()) -> Bool {
+  func report(closure: @noescape (ContextReporter) -> Void) -> Bool {
     closure(self)
     printStatus()
     return failures.isEmpty
   }
 
-  func report(name: String, @noescape closure: ContextReporter -> ()) {
+  func report(_ name: String, closure: @noescape (ContextReporter) -> Void) {
     depth += 1
     position.append(name)
     closure(self)
@@ -95,15 +97,15 @@ class CountReporter : Reporter, ContextReporter {
     position.removeLast()
   }
 
-  func addSuccess(name: String) {
+  func addSuccess(_ name: String) {
     successes += 1
   }
 
-  func addDisabled(name: String) {
+  func addDisabled(_ name: String) {
     disabled += 1
   }
 
-  func addFailure(name: String, failure: FailureType) {
+  func addFailure(_ name: String, failure: FailureType) {
     failures.append(CaseFailure(position: position + [name], failure: failure))
   }
 }
@@ -111,29 +113,29 @@ class CountReporter : Reporter, ContextReporter {
 
 /// Standard reporter
 class StandardReporter : CountReporter {
-  override func report(name: String, @noescape closure: ContextReporter -> ()) {
+  override func report(_ name: String, closure: @noescape (ContextReporter) -> Void) {
     colour(.Bold, "-> \(name)")
     super.report(name, closure: closure)
     print("")
   }
 
-  override func addSuccess(name: String) {
+  override func addSuccess(_ name: String) {
     super.addSuccess(name)
     colour(.Green, "-> \(name)")
   }
 
-  override func addDisabled(name: String) {
+  override func addDisabled(_ name: String) {
     super.addDisabled(name)
     colour(.Yellow, "-> \(name)")
   }
 
-  override func addFailure(name: String, failure: FailureType) {
+  override func addFailure(_ name: String, failure: FailureType) {
     super.addFailure(name, failure: failure)
     colour(.Red, "-> \(name)")
   }
 
-  func colour(colour: ANSI, _ message: String) {
-    let indentation = String(count: depth * 2, repeatedValue: " " as Character)
+  func colour(_ colour: ANSI, _ message: String) {
+    let indentation = String(repeating: " " as Character, count: depth * 2)
     print("\(indentation)\(colour)\(message)\(ANSI.Reset)")
   }
 }
@@ -141,17 +143,17 @@ class StandardReporter : CountReporter {
 
 /// Simple reporter that outputs minimal . F and S.
 class DotReporter : CountReporter {
-  override func addSuccess(name: String) {
+  override func addSuccess(_ name: String) {
     super.addSuccess(name)
     print(ANSI.Green, ".", ANSI.Reset, separator: "", terminator: "")
   }
 
-  override func addDisabled(name: String) {
+  override func addDisabled(_ name: String) {
     super.addDisabled(name)
     print(ANSI.Yellow, "S", ANSI.Reset, separator: "", terminator: "")
   }
 
-  override func addFailure(name: String, failure: FailureType) {
+  override func addFailure(_ name: String, failure: FailureType) {
     super.addFailure(name, failure: failure)
     print(ANSI.Red, "F", ANSI.Reset, separator: "", terminator: "")
   }
@@ -168,27 +170,27 @@ class DotReporter : CountReporter {
 class TapReporter : CountReporter {
   var count = 0
 
-  override func addSuccess(name: String) {
+  override func addSuccess(_ name: String) {
     count += 1
     super.addSuccess(name)
 
-    let message = (position + [name]).joinWithSeparator(" ")
+    let message = (position + [name]).joined(separator: " ")
     print("ok \(count) - \(message)")
   }
 
-  override func addDisabled(name: String) {
+  override func addDisabled(_ name: String) {
     count += 1
     super.addDisabled(name)
 
-    let message = (position + [name]).joinWithSeparator(" ")
+    let message = (position + [name]).joined(separator: " ")
     print("ok \(count) - # skip \(message)")
   }
 
-  override func addFailure(name: String, failure: FailureType) {
+  override func addFailure(_ name: String, failure: FailureType) {
     count += 1
     super.addFailure(name, failure: failure)
 
-    let message = (position + [name]).joinWithSeparator(" ")
+    let message = (position + [name]).joined(separator: " ")
     print("not ok \(count) - \(message)")
     print("# \(failure.reason) from \(failure.file):\(failure.line)")
   }

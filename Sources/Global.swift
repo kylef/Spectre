@@ -1,7 +1,7 @@
 #if os(Linux)
 import Glibc
 #else
-import Darwin.C
+import Darwin
 #endif
 
 
@@ -10,17 +10,17 @@ let globalContext: GlobalContext = {
   return GlobalContext()
 }()
 
-public func describe(name:String, closure:ContextType -> ()) {
+public func describe(_ name: String, closure: (ContextType) -> Void) {
   globalContext.describe(name, closure: closure)
 }
 
-public func it(name:String, closure:() throws -> ()) {
+public func it(_ name: String, closure: () throws -> Void) {
   globalContext.it(name, closure: closure)
 }
 
 @noreturn public func run() {
   let reporter: Reporter
-
+  
   if Process.arguments.contains("--tap") {
     reporter = TapReporter()
   } else if Process.arguments.contains("-t") {
@@ -28,12 +28,12 @@ public func it(name:String, closure:() throws -> ()) {
   } else {
     reporter = StandardReporter()
   }
-
-  run(reporter)
+  
+  run(reporter: reporter)
 }
 
 @noreturn public func run(reporter: Reporter) {
-  if globalContext.run(reporter) {
+  if globalContext.run(reporter: reporter) {
     exit(0)
   }
   exit(1)

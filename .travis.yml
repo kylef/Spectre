@@ -8,4 +8,4 @@ install:
 - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then sudo python -m ensurepip; fi
 - sudo pip install swim
 script:
-- make SWIFTC="swiftc -target x86_64-apple-macosx10.10 -sdk /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.11.sdk" test
+- swim test

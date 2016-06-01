@@ -21,6 +21,7 @@ struct Failure : FailureType {
   }
 }
 
+
 public func failure(reason: String? = nil, function: String = #function, file: String = #file, line: Int = #line) -> FailureType {
   return Failure(reason: reason ?? "-", function: function, file: file, line: line)
 }

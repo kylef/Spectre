@@ -34,27 +34,28 @@ struct CaseFailure {
   }
 }
 
-extension Collection where Iterator.Element == CaseFailure {
-  func print() {
-    for failure in self {
-      let name = failure.position.joined(separator: " ")
-      Swift.print(ANSI.Red, name)
-      let file = "\(failure.failure.file):\(failure.failure.line)"
-      Swift.print("  \(ANSI.Bold)\(file)\(ANSI.Reset) \(ANSI.Yellow)\(failure.failure.reason)\(ANSI.Reset)\n")
+
+func printFailures(failures: [CaseFailure]) {
+  for failure in failures {
+    let name = failure.position.joined(separator: " ")
+    Swift.print(ANSI.Red, name)
+    let file = "\(failure.failure.file):\(failure.failure.line)"
+    Swift.print("  \(ANSI.Bold)\(file)\(ANSI.Reset) \(ANSI.Yellow)\(failure.failure.reason)\(ANSI.Reset)\n")
 
 #if !os(Linux)
-/* DISABLED TODO
-      if let contents = try? NSString(contentsOfFile: failure.failure.file, encoding: NSUTF8StringEncoding) as String {
-        let lines = contents.componentsSeparated(by: NSCharacterSet.newlineCharacterSet())
-        let line = lines[failure.failure.line - 1]
-        let trimmedLine = line.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceCharacterSet())
-        Swift.print("  ```")
-        Swift.print("  \(trimmedLine)")
-        Swift.print("  ```")
-      }
-*/
-#endif
+#if swift(>=3.0)
+// TODO
+#else
+    if let contents = try? NSString(contentsOfFile: failure.failure.file, encoding: NSUTF8StringEncoding) as String {
+      let lines = contents.componentsSeparatedByCharactersInSet(NSCharacterSet.newlineCharacterSet())
+      let line = lines[failure.failure.line - 1]
+      let trimmedLine = line.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceCharacterSet())
+      Swift.print("  ```")
+      Swift.print("  \(trimmedLine)")
+      Swift.print("  ```")
     }
+#endif
+#endif
   }
 }
 
@@ -67,7 +68,7 @@ class CountReporter : Reporter, ContextReporter {
   var failures = [CaseFailure]()
 
   func printStatus() {
-    failures.print()
+    printFailures(failures)
 
     let disabledMessage: String
     if disabled > 0 {
@@ -83,12 +84,21 @@ class CountReporter : Reporter, ContextReporter {
     }
   }
 
+#if swift(>=3.0)
   func report(closure: @noescape (ContextReporter) -> Void) -> Bool {
     closure(self)
     printStatus()
     return failures.isEmpty
   }
+#else
+  func report(@noescape closure: (ContextReporter) -> Void) -> Bool {
+    closure(self)
+    printStatus()
+    return failures.isEmpty
+  }
+#endif
 
+#if swift(>=3.0)
   func report(_ name: String, closure: @noescape (ContextReporter) -> Void) {
     depth += 1
     position.append(name)
@@ -96,6 +106,15 @@ class CountReporter : Reporter, ContextReporter {
     depth -= 1
     position.removeLast()
   }
+#else
+  func report(_ name: String, @noescape closure: (ContextReporter) -> Void) {
+    depth += 1
+    position.append(name)
+    closure(self)
+    depth -= 1
+    position.removeLast()
+  }
+#endif
 
   func addSuccess(_ name: String) {
     successes += 1
@@ -113,11 +132,19 @@ class CountReporter : Reporter, ContextReporter {
 
 /// Standard reporter
 class StandardReporter : CountReporter {
+#if swift(>=3.0)
   override func report(_ name: String, closure: @noescape (ContextReporter) -> Void) {
     colour(.Bold, "-> \(name)")
     super.report(name, closure: closure)
     print("")
   }
+#else
+  override func report(_ name: String, @noescape closure: (ContextReporter) -> Void) {
+    colour(.Bold, "-> \(name)")
+    super.report(name, closure: closure)
+    print("")
+  }
+#endif
 
   override func addSuccess(_ name: String) {
     super.addSuccess(name)
@@ -135,7 +162,11 @@ class StandardReporter : CountReporter {
   }
 
   func colour(_ colour: ANSI, _ message: String) {
+#if swift(>=3.0)
     let indentation = String(repeating: " " as Character, count: depth * 2)
+#else
+    let indentation = String(count: depth * 2, repeatedValue: " " as Character)
+#endif
     print("\(indentation)\(colour)\(message)\(ANSI.Reset)")
   }
 }

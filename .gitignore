@@ -1,7 +1,5 @@
 /.build/
-.conche/
 Example/example
-tests
 tests.swift
 Tests/Integration/Failing
 Tests/Integration/Failing-dot-output.txt

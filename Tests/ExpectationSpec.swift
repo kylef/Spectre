@@ -1,7 +1,8 @@
 import Spectre
 
 
-describe("Expectation") {
+func testExpectation() {
+  describe("Expectation") {
   $0.it("can be created from a value") {
     let expectation = expect("value")
     let value = try expectation.expression()
@@ -163,4 +164,5 @@ describe("Expectation") {
       } catch {}
     }
   }
+}
 }

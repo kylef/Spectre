@@ -98,7 +98,11 @@ class Context : ContextType, CaseType {
     reporter.report(name) { reporter in
       cases.forEach {
         runBefores()
+#if swift(>=3.0)
         $0.run(reporter: reporter)
+#else
+        $0.run(reporter)
+#endif
         runAfters()
       }
     }

@@ -4,6 +4,7 @@ public protocol ExpectationType {
   func failure(reason: String) -> FailureType
 }
 
+
 struct ExpectationFailure : FailureType {
   let file: String
   let line: Int

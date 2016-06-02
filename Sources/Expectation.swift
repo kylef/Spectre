@@ -71,6 +71,28 @@ public func != <E: ExpectationType where E.ValueType: Equatable>(lhs: E, rhs: E.
   }
 }
 
+// MARK: Array Equatability
+
+public func == <Element: Equatable> (lhs: Expectation<[Element]>, rhs: [Element]) throws {
+  if let value = try lhs.expression() {
+    if value != rhs {
+      throw lhs.failure("\(value) is not equal to \(rhs)")
+    }
+  } else {
+    throw lhs.failure("given value is nil")
+  }
+}
+
+public func != <Element: Equatable> (lhs: Expectation<[Element]>, rhs: [Element]) throws {
+  if let value = try lhs.expression() {
+    if value == rhs {
+      throw lhs.failure( "\(value) is equal to \(rhs)")
+    }
+  } else {
+    throw lhs.failure("given value is nil")
+  }
+}
+
 // MARK: Nil
 
 extension ExpectationType {

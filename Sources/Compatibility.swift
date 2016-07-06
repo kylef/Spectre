@@ -33,8 +33,4 @@ extension CaseType {
     run(reporter)
   }
 }
-
-@noreturn public func run(reporter reporter: Reporter) {
-  run(reporter)
-}
 #endif

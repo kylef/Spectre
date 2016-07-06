@@ -32,9 +32,18 @@ public func it(_ name: String, closure: () throws -> Void) {
   run(reporter: reporter)
 }
 
+#if swift(>=3.0)
 @noreturn public func run(reporter: Reporter) {
   if globalContext.run(reporter: reporter) {
     exit(0)
   }
   exit(1)
 }
+#else
+@noreturn public func run(reporter reporter: Reporter) {
+  if globalContext.run(reporter: reporter) {
+    exit(0)
+  }
+  exit(1)
+}
+#endif

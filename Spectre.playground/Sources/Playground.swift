@@ -6,18 +6,34 @@ class PlaygroundReporter : ContextReporter {
     Swift.print("\(indentation)\(message)")
   }
 
-  func report(name:String, @noescape closure: ContextReporter -> ()) {
+#if swift(>=3.0)
+  func report(_ name: String, closure: @noescape (ContextReporter) -> Void) {
     print("\(name):")
 
-    ++depth
+    depth += 1
     closure(self)
-    --depth
+    depth -= 1
 
     print("")
   }
+#else
+  func report(_ name: String, @noescape closure: (ContextReporter) -> Void) {
+    print("\(name):")
+
+    depth += 1
+    closure(self)
+    depth -= 1
+
+    print("")
+  }
+#endif
 
   func addSuccess(name:String) {
     print("✓ \(name)")
+  }
+
+  func addDisabled(name: String) {
+    print("✱ \(name)")
   }
 
   func addFailure(name:String, failure: FailureType) {

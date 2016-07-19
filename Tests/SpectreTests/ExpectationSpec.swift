@@ -1,7 +1,7 @@
 import Spectre
 
 
-func testExpectation() {
+public func testExpectation() {
   describe("Expectation") {
   $0.it("can be created from a value") {
     let expectation = expect("value")
@@ -97,24 +97,24 @@ func testExpectation() {
   }
 
   $0.describe("error handling") {
-    enum FileError : ErrorProtocol {
-      case NotFound
-      case NoPermission
+    enum FileError : Error {
+      case notFound
+      case noPermission
     }
 
     func throwing() throws {
-      throw FileError.NotFound
+      throw FileError.notFound
     }
 
     func nonThrowing() throws {}
 
     $0.it("doesn't throw if error is the same") {
-      try expect(try throwing()).toThrow(FileError.NotFound)
+      try expect(try throwing()).toThrow(FileError.notFound)
     }
 
     $0.it("throws if the error differs") {
       do {
-        try expect(try throwing()).toThrow(FileError.NoPermission)
+        try expect(try throwing()).toThrow(FileError.noPermission)
         fatalError()
       } catch {}
     }

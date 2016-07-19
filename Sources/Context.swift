@@ -11,20 +11,20 @@ public protocol ContextType {
   /// Creates a new disabled sub-context
   func xdescribe(_ name: String, closure: (ContextType) -> Void)
 
-  func before(closure: () -> Void)
-  func after(closure: () -> Void)
+  func before(_ closure: @escaping () -> Void)
+  func after(_ closure: @escaping () -> Void)
 
   /// Adds a new test case
-  func it(_ name: String, closure: () throws -> Void)
+  func it(_ name: String, closure: @escaping () throws -> Void)
 
   /// Adds a disabled test case
-  func xit(_ name: String, closure: () throws -> Void)
+  func xit(_ name: String, closure: @escaping () throws -> Void)
 }
 
 class Context : ContextType, CaseType {
   let name: String
   let disabled: Bool
-  private weak var parent: Context?
+  fileprivate weak var parent: Context?
   var cases = [CaseType]()
 
   typealias Before = (() -> Void)
@@ -63,19 +63,19 @@ class Context : ContextType, CaseType {
     cases.append(context)
   }
 
-  func before(closure: () -> Void) {
+  func before(_ closure: @escaping () -> Void) {
     befores.append(closure)
   }
 
-  func after(closure: () -> Void) {
+  func after(_ closure: @escaping () -> Void) {
     afters.append(closure)
   }
 
-  func it(_ name: String, closure: () throws -> Void) {
+  func it(_ name: String, closure: @escaping () throws -> Void) {
     cases.append(Case(name: name, closure: closure))
   }
 
-  func xit(_ name: String, closure: () throws -> Void) {
+  func xit(_ name: String, closure: @escaping () throws -> Void) {
     cases.append(Case(name: name, disabled: true, closure: closure))
   }
 
@@ -98,14 +98,9 @@ class Context : ContextType, CaseType {
     reporter.report(name) { reporter in
       cases.forEach {
         runBefores()
-#if swift(>=3.0)
         $0.run(reporter: reporter)
-#else
-        $0.run(reporter)
-#endif
         runAfters()
       }
     }
   }
 }
-

@@ -1,18 +1,10 @@
 public protocol Reporter {
   /// Create a new report
-#if swift(>=3.0)
-  func report(closure: @noescape (ContextReporter) -> Void) -> Bool
-#else
-  func report(@noescape closure: (ContextReporter) -> Void) -> Bool
-#endif
+  func report(closure: (ContextReporter) -> Void) -> Bool
 }
 
 public protocol ContextReporter {
-#if swift(>=3.0)
-  func report(_ name: String, closure: @noescape (ContextReporter) -> Void)
-#else
-  func report(_ name: String, @noescape closure: (ContextReporter) -> Void)
-#endif
+  func report(_ name: String, closure: (ContextReporter) -> Void)
 
   /// Add a passing test case
   func addSuccess(_ name: String)

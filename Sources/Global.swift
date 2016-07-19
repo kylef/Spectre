@@ -14,16 +14,16 @@ public func describe(_ name: String, closure: (ContextType) -> Void) {
   globalContext.describe(name, closure: closure)
 }
 
-public func it(_ name: String, closure: () throws -> Void) {
+public func it(_ name: String, closure: @escaping () throws -> Void) {
   globalContext.it(name, closure: closure)
 }
 
-@noreturn public func run() {
+public func run() -> Never  {
   let reporter: Reporter
 
-  if Process.arguments.contains("--tap") {
+  if CommandLine.arguments.contains("--tap") {
     reporter = TapReporter()
-  } else if Process.arguments.contains("-t") {
+  } else if CommandLine.arguments.contains("-t") {
     reporter = DotReporter()
   } else {
     reporter = StandardReporter()
@@ -32,18 +32,9 @@ public func it(_ name: String, closure: () throws -> Void) {
   run(reporter: reporter)
 }
 
-#if swift(>=3.0)
-@noreturn public func run(reporter: Reporter) {
+public func run(reporter: Reporter) -> Never  {
   if globalContext.run(reporter: reporter) {
     exit(0)
   }
   exit(1)
 }
-#else
-@noreturn public func run(reporter reporter: Reporter) {
-  if globalContext.run(reporter: reporter) {
-    exit(0)
-  }
-  exit(1)
-}
-#endif

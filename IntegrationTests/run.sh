@@ -6,33 +6,35 @@ for var in "$@"; do
   echo "-> '$var'"
   rm $var-output.txt $var-dot-output.txt $var-tap-output.txt 2>/dev/null
 
-  ./$var > $var-output.txt
+  ./.build/debug/$var > $var-output.txt
   if [ $? != 0 ]; then
-    if [ $var != "Tests/Integration/Failing" ]; then
+    if [ $var != "Failing" ]; then
       echo "    - Integration Failed"
       EXIT_CODE=1
     fi
-  elif [ $var = "Tests/Integration/Failing" ]; then
+  elif [ $var = "Failing" ]; then
     echo "    - Failing Integration Succeeded"
     EXIT_CODE=1
   fi
-  ./$var -t > $var-dot-output.txt
+
+  ./.build/debug/$var -t > $var-dot-output.txt
   if [ $? != 0 ]; then
-    if [ $var != "Tests/Integration/Failing" ]; then
+    if [ $var != "Failing" ]; then
       echo "    - Dot Integration Failed"
       EXIT_CODE=1
     fi
-  elif [ $var = "Tests/Integration/Failing" ]; then
+  elif [ $var = "Failing" ]; then
     echo "    - Failing Dot Integration Succeeded"
     EXIT_CODE=1
   fi
-  ./$var --tap > $var-tap-output.txt
+
+  ./.build/debug/$var --tap > $var-tap-output.txt
   if [ $? != 0 ]; then
-    if [ $var != "Tests/Integration/Failing" ]; then
+    if [ $var != "Failing" ]; then
       echo "    - Tap Integration Failed"
       EXIT_CODE=1
     fi
-  elif [ $var = "Tests/Integration/Failing" ]; then
+  elif [ $var = "Failing" ]; then
     echo "    - Failing Tap Integration Succeeded"
     EXIT_CODE=1
   fi

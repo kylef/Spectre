@@ -7,7 +7,7 @@ class GlobalContext {
     cases.append(context)
   }
 
-  func it(_ name: String, closure: () throws -> Void) {
+  func it(_ name: String, closure: @escaping () throws -> Void) {
     cases.append(Case(name: name, closure: closure))
   }
 

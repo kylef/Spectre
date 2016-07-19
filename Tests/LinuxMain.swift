@@ -1,0 +1,4 @@
+import SpectreTests
+
+testExpectation()
+testFailure()

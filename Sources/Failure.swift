@@ -1,4 +1,4 @@
-public protocol FailureType : ErrorProtocol {
+public protocol FailureType : Error {
   var function: String { get }
   var file: String { get }
   var line: Int { get }
@@ -22,6 +22,6 @@ struct Failure : FailureType {
 }
 
 
-public func failure(reason: String? = nil, function: String = #function, file: String = #file, line: Int = #line) -> FailureType {
+public func failure(_ reason: String? = nil, function: String = #function, file: String = #file, line: Int = #line) -> FailureType {
   return Failure(reason: reason ?? "-", function: function, file: file, line: line)
 }

@@ -1,12 +1,12 @@
 import Spectre
 
-func testFailure() {
+public func testFailure() {
   describe("Failure") {
     $0.it("throws an error") {
       var didFail = false
 
       do {
-        throw failure(reason: "it's broken")
+        throw failure("it's broken")
       } catch {
         didFail = true
       }

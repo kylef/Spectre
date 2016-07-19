@@ -1,0 +1,3 @@
+not ok 1 - a person named kyle is Kyle
+# Katie is not equal to Kyle from Sources/Failing/main.swift:10
+1..1

@@ -1,8 +1,8 @@
+import Foundation
 #if os(Linux)
 import Glibc
 #else
 import Darwin.C
-import Foundation
 #endif
 
 
@@ -35,27 +35,36 @@ struct CaseFailure {
 }
 
 
-func printFailures(failures: [CaseFailure]) {
+fileprivate func stripCurrentDirectory(_ file: String) -> String {
+  var currentPath = FileManager.`default`.currentDirectoryPath
+  if !currentPath.hasSuffix("/") {
+    currentPath += "/"
+  }
+
+  if file.hasPrefix(currentPath) {
+    return file.substring(from: currentPath.endIndex)
+  }
+
+  return file
+}
+
+
+func printFailures(_ failures: [CaseFailure]) {
   for failure in failures {
     let name = failure.position.joined(separator: " ")
     Swift.print(ANSI.Red, name)
-    let file = "\(failure.failure.file):\(failure.failure.line)"
+
+    let file = "\(stripCurrentDirectory(failure.failure.file)):\(failure.failure.line)"
     Swift.print("  \(ANSI.Bold)\(file)\(ANSI.Reset) \(ANSI.Yellow)\(failure.failure.reason)\(ANSI.Reset)\n")
 
-#if !os(Linux)
-#if swift(>=3.0)
-// TODO
-#else
-    if let contents = try? NSString(contentsOfFile: failure.failure.file, encoding: NSUTF8StringEncoding) as String {
-      let lines = contents.componentsSeparatedByCharactersInSet(NSCharacterSet.newlineCharacterSet())
+    if let contents = try? String(contentsOfFile: failure.failure.file, encoding: String.Encoding.utf8) as String {
+      let lines = contents.components(separatedBy: CharacterSet.newlines)
       let line = lines[failure.failure.line - 1]
-      let trimmedLine = line.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceCharacterSet())
+      let trimmedLine = line.trimmingCharacters(in: CharacterSet.whitespaces)
       Swift.print("  ```")
       Swift.print("  \(trimmedLine)")
       Swift.print("  ```")
     }
-#endif
-#endif
   }
 }
 
@@ -85,13 +94,13 @@ class CountReporter : Reporter, ContextReporter {
   }
 
 #if swift(>=3.0)
-  func report(closure: @noescape (ContextReporter) -> Void) -> Bool {
+  func report(closure: (ContextReporter) -> Void) -> Bool {
     closure(self)
     printStatus()
     return failures.isEmpty
   }
 #else
-  func report(@noescape closure: (ContextReporter) -> Void) -> Bool {
+  func report(@noescape _ closure: (ContextReporter) -> Void) -> Bool {
     closure(self)
     printStatus()
     return failures.isEmpty
@@ -99,7 +108,7 @@ class CountReporter : Reporter, ContextReporter {
 #endif
 
 #if swift(>=3.0)
-  func report(_ name: String, closure: @noescape (ContextReporter) -> Void) {
+  func report(_ name: String, closure: (ContextReporter) -> Void) {
     depth += 1
     position.append(name)
     closure(self)
@@ -132,19 +141,11 @@ class CountReporter : Reporter, ContextReporter {
 
 /// Standard reporter
 class StandardReporter : CountReporter {
-#if swift(>=3.0)
-  override func report(_ name: String, closure: @noescape (ContextReporter) -> Void) {
+  override func report(_ name: String, closure: (ContextReporter) -> Void) {
     colour(.Bold, "-> \(name)")
     super.report(name, closure: closure)
     print("")
   }
-#else
-  override func report(_ name: String, @noescape closure: (ContextReporter) -> Void) {
-    colour(.Bold, "-> \(name)")
-    super.report(name, closure: closure)
-    print("")
-  }
-#endif
 
   override func addSuccess(_ name: String) {
     super.addSuccess(name)
@@ -162,11 +163,7 @@ class StandardReporter : CountReporter {
   }
 
   func colour(_ colour: ANSI, _ message: String) {
-#if swift(>=3.0)
-    let indentation = String(repeating: " " as Character, count: depth * 2)
-#else
-    let indentation = String(count: depth * 2, repeatedValue: " " as Character)
-#endif
+    let indentation = String(repeating: " ", count: depth * 2)
     print("\(indentation)\(colour)\(message)\(ANSI.Reset)")
   }
 }
@@ -223,7 +220,7 @@ class TapReporter : CountReporter {
 
     let message = (position + [name]).joined(separator: " ")
     print("not ok \(count) - \(message)")
-    print("# \(failure.reason) from \(failure.file):\(failure.line)")
+    print("# \(failure.reason) from \(stripCurrentDirectory(failure.file)):\(failure.line)")
   }
 
   override func printStatus() {

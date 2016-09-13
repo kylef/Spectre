@@ -21,6 +21,14 @@ struct Failure : FailureType {
   }
 }
 
+struct Skip: Error {
+  let reason: String?
+}
+
+public func skip(_ reason: String? = nil) -> Error {
+  return Skip(reason: reason)
+}
+
 
 public func failure(_ reason: String? = nil, function: String = #function, file: String = #file, line: Int = #line) -> FailureType {
   return Failure(reason: reason ?? "-", function: function, file: file, line: line)

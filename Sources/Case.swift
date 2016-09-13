@@ -23,6 +23,8 @@ class Case : CaseType {
     do {
       try closure()
       reporter.addSuccess(name)
+    } catch _ as Skip {
+      reporter.addDisabled(name)
     } catch let error as FailureType {
       reporter.addFailure(name, failure: error)
     } catch {

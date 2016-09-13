@@ -3,7 +3,7 @@ sudo: required
 dist: trusty
 env:
 - SWIFT_VERSION=2.2.1
-- SWIFT_VERSION=3.0-PREVIEW-2
+- SWIFT_VERSION=3.0-GM-CANDIDATE
 install:
 - eval "$(curl -sL https://gist.githubusercontent.com/kylef/5c0475ff02b7c7671d2a/raw/9f442512a46d7a2af7b850d65a7e9bd31edfb09b/swiftenv-install.sh)"
 - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then sudo python -m ensurepip; fi

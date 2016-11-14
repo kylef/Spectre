@@ -57,7 +57,7 @@ public func expect<T>(_ file: String = #file, line: Int = #line, function: Strin
 public func == <E: ExpectationType>(lhs: E, rhs: E.ValueType) throws where E.ValueType: Equatable {
   if let value = try lhs.expression() {
     if value != rhs {
-      throw lhs.failure("\(value) is not equal to \(rhs)")
+      throw lhs.failure("\(String(describing: value)) is not equal to \(rhs)")
     }
   } else {
     throw lhs.failure("given value is nil")
@@ -67,7 +67,7 @@ public func == <E: ExpectationType>(lhs: E, rhs: E.ValueType) throws where E.Val
 public func != <E: ExpectationType>(lhs: E, rhs: E.ValueType) throws where E.ValueType: Equatable {
   let value = try lhs.expression()
   if value == rhs {
-    throw lhs.failure("\(value) is equal to \(rhs)")
+    throw lhs.failure("\(String(describing: value)) is equal to \(rhs)")
   }
 }
 
@@ -76,7 +76,7 @@ public func != <E: ExpectationType>(lhs: E, rhs: E.ValueType) throws where E.Val
 public func == <Element: Equatable> (lhs: Expectation<[Element]>, rhs: [Element]) throws {
   if let value = try lhs.expression() {
     if value != rhs {
-      throw lhs.failure("\(value) is not equal to \(rhs)")
+      throw lhs.failure("\(String(describing: value)) is not equal to \(rhs)")
     }
   } else {
     throw lhs.failure("given value is nil")
@@ -86,7 +86,7 @@ public func == <Element: Equatable> (lhs: Expectation<[Element]>, rhs: [Element]
 public func != <Element: Equatable> (lhs: Expectation<[Element]>, rhs: [Element]) throws {
   if let value = try lhs.expression() {
     if value == rhs {
-      throw lhs.failure("\(value) is equal to \(rhs)")
+      throw lhs.failure("\(String(describing: value)) is equal to \(rhs)")
     }
   } else {
     throw lhs.failure("given value is nil")
@@ -98,7 +98,7 @@ public func != <Element: Equatable> (lhs: Expectation<[Element]>, rhs: [Element]
 public func == <Key: Equatable, Value: Equatable> (lhs: Expectation<[Key: Value]>, rhs: [Key: Value]) throws {
   if let value = try lhs.expression() {
     if value != rhs {
-      throw lhs.failure("\(value) is not equal to \(rhs)")
+      throw lhs.failure("\(String(describing: value)) is not equal to \(rhs)")
     }
   } else {
     throw lhs.failure("given value is nil")
@@ -108,7 +108,7 @@ public func == <Key: Equatable, Value: Equatable> (lhs: Expectation<[Key: Value]
 public func != <Key: Equatable, Value: Equatable> (lhs: Expectation<[Key: Value]>, rhs: [Key: Value]) throws {
   if let value = try lhs.expression() {
     if value == rhs {
-      throw lhs.failure("\(value) is equal to \(rhs)")
+      throw lhs.failure("\(String(describing: value)) is equal to \(rhs)")
     }
   } else {
     throw lhs.failure("given value is nil")
@@ -189,27 +189,27 @@ extension ExpectationType {
 public func > <E: ExpectationType>(lhs: E, rhs: E.ValueType) throws where E.ValueType: Comparable {
   let value = try lhs.expression()
   guard value! > rhs else {
-    throw lhs.failure("\(value) is not more than \(rhs)")
+    throw lhs.failure("\(String(describing: value)) is not more than \(rhs)")
   }
 }
 
 public func >= <E: ExpectationType>(lhs: E, rhs: E.ValueType) throws where E.ValueType: Comparable {
   let value = try lhs.expression()
   guard value! >= rhs else {
-    throw lhs.failure("\(value) is not more than or equal to \(rhs)")
+    throw lhs.failure("\(String(describing: value)) is not more than or equal to \(rhs)")
   }
 }
 
 public func < <E: ExpectationType>(lhs: E, rhs: E.ValueType) throws where E.ValueType: Comparable {
   let value = try lhs.expression()
   guard value! < rhs else {
-    throw lhs.failure("\(value) is not less than \(rhs)")
+    throw lhs.failure("\(String(describing: value)) is not less than \(rhs)")
   }
 }
 
 public func <= <E: ExpectationType>(lhs: E, rhs: E.ValueType) throws where E.ValueType: Comparable {
   let value = try lhs.expression()
   guard value! <= rhs else {
-    throw lhs.failure("\(value) is not less than or equal to \(rhs)")
+    throw lhs.failure("\(String(describing: value)) is not less than or equal to \(rhs)")
   }
 }

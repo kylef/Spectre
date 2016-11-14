@@ -1,6 +1,6 @@
 {
   "name": "Spectre",
-  "version": "0.7.0",
+  "version": "0.7.2",
   "summary": "BDD Framework and test runner for Swift projects and playgrounds",
   "description": "A behavior-driven development (BDD) framework and test runner for Swift projects and playgrounds. Foundation-free and Linux-ready!",
   "homepage": "https://github.com/kylef/Spectre",

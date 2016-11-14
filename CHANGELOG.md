@@ -1,5 +1,12 @@
 # Spectre Changelog
 
+## 0.7.2
+
+## Enhancements
+
+- Adds support for future Swift development snapshots (2016-11-11).
+
+
 ## 0.7.1
 
 ## Enhancements

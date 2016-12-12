@@ -90,6 +90,12 @@ try expect(5) < 10
 try expect(5) <= 10
 ```
 
+#### Types
+
+```swift
+try expect("kyle").to.beOfType(String.self)
+```
+
 #### Causing a failure
 
 ```swift

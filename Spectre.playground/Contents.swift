@@ -1,11 +1,11 @@
 struct Person : CustomStringConvertible {
-  let name:String
+  let name: String
 
-  init(name:String) {
+  init(name: String) {
     self.name = name
   }
 
-  var description:String {
+  var description: String {
     return name
   }
 }

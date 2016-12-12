@@ -24,6 +24,33 @@ public func testExpectation() {
       try expect(name).to.beNil()
     }
   }
+  
+  $0.describe("comparison to type") {
+    class Animal {open func move() {}}
+    class Bear: Animal {func rawr() {}}
+    
+    $0.it("errors when value is not the same type") {
+      do {
+        try expect("kyle").to.beOfType(Bool.self)
+        fatalError()
+      } catch {}
+    }
+    
+    $0.it("passes when value is the same value type") {
+      try expect(true).to.beOfType(Bool.self)
+    }
+    
+    $0.it("passes when value is the same object type") {
+      try expect(Animal()).to.beOfType(Animal.self)
+    }
+    
+    $0.it("fails when value is a subclass of an object type") {
+      do {
+        try expect(Bear()).to.beOfType(Animal.self)
+        fatalError()
+      } catch {}
+    }
+  }
 
   $0.describe("equality extensions") {
     $0.describe("`==` operator") {

@@ -144,6 +144,17 @@ extension ExpectationType where ValueType == Bool {
   }
 }
 
+// Mark: Types
+
+extension ExpectationType {
+  public func beOfType(_ type: Any.Type) throws {
+    guard let value = try expression() else { throw failure("cannot determine type: value is nil") }
+    if Mirror(reflecting: value).subjectType != type {
+      throw failure("value is not type of '\(type)'")
+    }
+  }
+}
+
 // MARK: Error Handling
 
 extension ExpectationType {

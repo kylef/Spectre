@@ -95,7 +95,7 @@ public func != <Element: Equatable> (lhs: Expectation<[Element]>, rhs: [Element]
 
 // MARK: Dictionary Equatability
 
-public func == <Key: Equatable, Value: Equatable> (lhs: Expectation<[Key: Value]>, rhs: [Key: Value]) throws {
+public func == <Key, Value: Equatable> (lhs: Expectation<[Key: Value]>, rhs: [Key: Value]) throws {
   if let value = try lhs.expression() {
     if value != rhs {
       throw lhs.failure("\(String(describing: value)) is not equal to \(rhs)")
@@ -105,7 +105,7 @@ public func == <Key: Equatable, Value: Equatable> (lhs: Expectation<[Key: Value]
   }
 }
 
-public func != <Key: Equatable, Value: Equatable> (lhs: Expectation<[Key: Value]>, rhs: [Key: Value]) throws {
+public func != <Key, Value: Equatable> (lhs: Expectation<[Key: Value]>, rhs: [Key: Value]) throws {
   if let value = try lhs.expression() {
     if value == rhs {
       throw lhs.failure("\(String(describing: value)) is equal to \(rhs)")

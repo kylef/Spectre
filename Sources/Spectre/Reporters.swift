@@ -42,7 +42,7 @@ fileprivate func stripCurrentDirectory(_ file: String) -> String {
   }
 
   if file.hasPrefix(currentPath) {
-    return file.substring(from: currentPath.endIndex)
+    return String(file.suffix(from: currentPath.endIndex))
   }
 
   return file

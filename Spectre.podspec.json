@@ -1,10 +1,10 @@
 {
   "name": "Spectre",
-  "version": "0.7.2",
+  "version": "0.8.0",
   "summary": "BDD Framework and test runner for Swift projects and playgrounds",
   "description": "A behavior-driven development (BDD) framework and test runner for Swift projects and playgrounds. Foundation-free and Linux-ready!",
   "homepage": "https://github.com/kylef/Spectre",
-  "source": { "git": "https://github.com/kylef/Spectre", "tag": "0.7.0" },
+  "source": { "git": "https://github.com/kylef/Spectre", "tag": "0.8.0" },
   "authors": { "Kyle Fuller": "kyle@fuller.li" },
   "license": {
     "type": "BSD",

@@ -1,6 +1,6 @@
 # Spectre Changelog
 
-## Master
+## 0.8.0
 
 Switches to Swift 4.0.
 

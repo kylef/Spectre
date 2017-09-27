@@ -1,5 +1,9 @@
 # Spectre Changelog
 
+## Master
+
+Switches to Swift 4.0.
+
 ## 0.7.2
 
 ## Enhancements

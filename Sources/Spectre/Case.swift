@@ -8,10 +8,18 @@ class Case : CaseType {
   let disabled: Bool
   let closure:() throws -> ()
 
-  init(name: String, disabled: Bool = false, closure: @escaping () throws -> ()) {
+  let function: String
+  let file: String
+  let line: Int
+
+  init(name: String, disabled: Bool = false, closure: @escaping () throws -> (), function: String = #function, file: String = #file, line: Int = #line) {
     self.name = name
     self.disabled = disabled
     self.closure = closure
+
+    self.function = function
+    self.file = file
+    self.line = line
   }
 
   func run(reporter: ContextReporter) {
@@ -28,7 +36,7 @@ class Case : CaseType {
     } catch let error as FailureType {
       reporter.addFailure(name, failure: error)
     } catch {
-      reporter.addFailure(name, failure: Failure(reason: "Unhandled error: \(error)"))
+      reporter.addFailure(name, failure: Failure(reason: "Unhandled error: \(error)", function: function, file: file, line: line))
     }
   }
 }

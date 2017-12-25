@@ -1,5 +1,11 @@
 # Spectre Changelog
 
+## Master
+
+### Enhancements
+
+- Unhandled errors will now be reported from the invoked cases source map.
+
 ## 0.8.0
 
 Switches to Swift 4.0.

@@ -34,6 +34,15 @@ class Context : ContextType, CaseType {
   var afters = [After]()
 
   init(name: String, disabled: Bool = false, parent: Context? = nil) {
+    var name = name
+    if name.hasPrefix("test") {
+      name = String(name.suffix(name.count - "test".count))
+      name = name.replacingOccurrences(of: "_", with: " ")
+    }
+    if name.hasSuffix("()") {
+      name = String(name.prefix(name.count - 2))
+    }
+
     self.name = name
     self.disabled = disabled
     self.parent = parent

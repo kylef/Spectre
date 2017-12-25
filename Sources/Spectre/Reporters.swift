@@ -14,8 +14,10 @@ enum ANSI : String, CustomStringConvertible {
   case Bold = "\u{001B}[0;1m"
   case Reset = "\u{001B}[0;0m"
 
+  static var isEnabled: Bool = true
+  
   var description:String {
-    if isatty(STDOUT_FILENO) > 0 {
+    if isatty(STDOUT_FILENO) > 0 && ANSI.isEnabled {
       return rawValue
     }
 

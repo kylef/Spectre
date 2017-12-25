@@ -28,6 +28,8 @@ public func run() -> Never  {
   } else {
     reporter = StandardReporter()
   }
+  
+  ANSI.isEnabled = !CommandLine.arguments.contains("--no-colors")
 
   run(reporter: reporter)
 }

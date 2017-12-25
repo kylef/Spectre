@@ -145,19 +145,28 @@ public func testExpectation() {
     func nonThrowing() throws {}
 
     $0.it("doesn't throw if error is the same") {
-      try expect(try throwing()).toThrow(FileError.notFound)
+      try expect(throwing()).to.throw(FileError.notFound)
     }
 
     $0.it("throws if the error differs") {
       do {
-        try expect(try throwing()).toThrow(FileError.noPermission)
+        try expect(throwing()).to.throw(FileError.noPermission)
         fatalError()
       } catch {}
     }
 
     $0.it("throws if no error was provided") {
       do {
-        try expect(try nonThrowing()).toThrow()
+        try expect(nonThrowing()).to.throw()
+        fatalError()
+      } catch {}
+    }
+    
+    $0.it("throws if error when no error expected") {
+      try expect(nonThrowing()).to.notThrow()
+      
+      do {
+        try expect(throwing()).to.notThrow()
         fatalError()
       } catch {}
     }

@@ -165,7 +165,12 @@ extension ExpectationType {
 // MARK: Error Handling
 
 extension ExpectationType {
+
   public func toThrow() throws {
+    try `throw`()
+  }
+
+  public func `throw`() throws {
     var didThrow = false
 
     do {
@@ -180,6 +185,10 @@ extension ExpectationType {
   }
 
   public func toThrow<T: Equatable>(_ error: T) throws {
+    try `throw`(error)
+  }
+
+  public func `throw`<T: Equatable>(_ error: T) throws {
     var thrownError: Error? = nil
 
     do {
@@ -200,6 +209,25 @@ extension ExpectationType {
       throw failure("expression did not throw an error")
     }
   }
+
+  public func notThrow() throws {
+    var didThrow = false
+    
+    do {
+      _ = try expression()
+    } catch {
+      didThrow = true
+    }
+    
+    if didThrow {
+      throw failure("expression did throw an error")
+    }
+  }
+  
+  public func toNotThrow() throws {
+    try notThrow()
+  }
+
 }
 
 // MARK: Comparable

@@ -23,6 +23,15 @@ public func testExpectation() {
     $0.it("passes when value is nil") {
       try expect(name).to.beNil()
     }
+    
+    $0.it("errors when value is nil") {
+      try expect("name").to.beNotNil()
+      
+      do {
+        try expect(name).to.beNotNil()
+        fatalError()
+      } catch {}
+    }
   }
   
   $0.describe("comparison to type") {

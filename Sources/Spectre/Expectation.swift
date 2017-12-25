@@ -124,6 +124,12 @@ extension ExpectationType {
       throw failure("value is not nil")
     }
   }
+  public func beNotNil() throws {
+    let value = try expression()
+    if value == nil {
+      throw failure("value is nil")
+    }
+  }
 }
 
 // MARK: Boolean

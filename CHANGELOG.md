@@ -2,6 +2,16 @@
 
 ## Master
 
+### Breaking
+
+- Using Spectre in Xcode has be re-hauled, there are now `describe` and `it`
+  methods on `XCTestCase` which can be used. When used, these tests will be ran
+  directly and reported as XCTest failures and therefore shown in Xcode and
+  Xcode sidebar as XCTest failures.
+
+  Use of the global test context, i.e, global `describe` and `it` is no longer
+  permitted when using Spectre with XCTest.
+
 ### Enhancements
 
 - Unhandled errors will now be reported from the invoked cases source map.

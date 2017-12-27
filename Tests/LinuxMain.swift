@@ -1,4 +1,5 @@
+import Spectre
 import SpectreTests
 
-testExpectation()
-testFailure()
+describe("Expectation", testExpectation)
+describe("Failure", testFailure)

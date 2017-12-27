@@ -5,6 +5,13 @@ public protocol ExpectationType {
 }
 
 
+public protocol NotExpectationType {
+  associatedtype ValueType
+  var expression: () throws -> ValueType? { get }
+  func failure(_ reason: String) -> FailureType
+}
+
+
 struct ExpectationFailure : FailureType {
   let file: String
   let line: Int
@@ -44,12 +51,44 @@ open class Expectation<T> : ExpectationType {
   }
 }
 
+public class NotExpectation<T>: NotExpectationType {
+  public typealias ValueType = T
+  public let expression: () throws -> ValueType?
+
+  let file: String
+  let line: Int
+  let function: String
+
+  public  var to: NotExpectation<T> {
+    return self
+  }
+
+  init(file: String, line: Int, function: String, expression: @escaping () throws -> ValueType?) {
+    self.file = file
+    self.line = line
+    self.function = function
+    self.expression = expression
+  }
+
+  public func failure(_ reason: String) -> FailureType {
+    return ExpectationFailure(reason: reason, file: file, line: line, function: function)
+  }
+}
+
 public func expect<T>( _ expression: @autoclosure @escaping () throws -> T?, file: String = #file, line: Int = #line, function: String = #function) -> Expectation<T> {
   return Expectation(file: file, line: line, function: function, expression: expression)
 }
 
 public func expect<T>(_ file: String = #file, line: Int = #line, function: String = #function, expression: @escaping () throws -> T?)  -> Expectation<T> {
   return Expectation(file: file, line: line, function: function, expression: expression)
+}
+
+// MARK: Not
+
+extension Expectation {
+  public var not: NotExpectation<T> {
+    return NotExpectation(file: file, line: line, function: function, expression: expression)
+  }
 }
 
 // MARK: Equatability
@@ -122,6 +161,15 @@ extension ExpectationType {
     let value = try expression()
     if value != nil {
       throw failure("value is not nil")
+    }
+  }
+}
+
+extension NotExpectationType {
+  public func beNil() throws {
+    let value = try expression()
+    if value == nil {
+      throw failure("value is nil")
     }
   }
 }

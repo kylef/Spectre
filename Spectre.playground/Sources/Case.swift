@@ -1,1 +1,1 @@
-../../Sources/Case.swift
+../../Sources/Spectre/Case.swift

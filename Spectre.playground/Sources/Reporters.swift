@@ -1,1 +1,1 @@
-../../Sources/Reporters.swift
+../../Sources/Spectre/Reporters.swift

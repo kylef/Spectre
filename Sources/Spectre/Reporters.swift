@@ -14,8 +14,24 @@ enum ANSI : String, CustomStringConvertible {
   case Bold = "\u{001B}[0;1m"
   case Reset = "\u{001B}[0;0m"
 
-  var description:String {
-    if isatty(STDOUT_FILENO) > 0 {
+  static var supportsANSI: Bool {
+    guard isatty(STDOUT_FILENO) != 0 else {
+      return false
+    }
+
+    guard let termType = getenv("TERM") else {
+      return false
+    }
+
+    guard String(cString: termType).lowercased() != "dumb" else {
+      return false
+    }
+
+    return true
+  }
+
+  var description: String {
+    if ANSI.supportsANSI {
       return rawValue
     }
 

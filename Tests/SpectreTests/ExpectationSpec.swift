@@ -137,6 +137,7 @@ public func testExpectation() {
       case notFound
       case noPermission
     }
+    enum AnotherError: Error {}
 
     func throwing() throws {
       throw FileError.notFound
@@ -151,6 +152,13 @@ public func testExpectation() {
     $0.it("throws if the error differs") {
       do {
         try expect(throwing()).to.throw(FileError.noPermission)
+        fatalError()
+      } catch {}
+    }
+
+    $0.it("throws if the error did not match") {
+      do {
+        try expect(throwing()).to.throw({ $0 is AnotherError })
         fatalError()
       } catch {}
     }

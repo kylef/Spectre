@@ -184,6 +184,28 @@ extension ExpectationType {
     }
   }
 
+  public func toThrow(_ match: (Error) -> Bool) throws {
+    try `throw`(match)
+  }
+
+  public func `throw`(_ match: (Error) -> Bool) throws {
+    var thrownError: Error? = nil
+
+    do {
+      _ = try expression()
+    } catch {
+      thrownError = error
+    }
+
+    if let thrownError = thrownError {
+      if !match(thrownError) {
+        throw failure("\(thrownError) did not match")
+      }
+    } else {
+      throw failure("expression did not throw an error")
+    }
+  }
+
   public func toThrow<T: Equatable>(_ error: T) throws {
     try `throw`(error)
   }

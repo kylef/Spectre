@@ -40,7 +40,6 @@ extension XCTestCase {
   public func describe(_ name: StaticString = #function, _ test: (ContextType) -> Void) {
     XCTestCase.reporter.testCase = self
     defer { XCTestCase.reporter.testCase = nil }
-    ANSI.isEnabled = !CommandLine.arguments.contains("--no-colors")
 
     Spectre.describe(name, closure: test)
     _ = globalContext.run(reporter: XCTestCase.reporter)
@@ -79,8 +78,6 @@ public func run() -> Never  {
     #endif
   }
   
-  ANSI.isEnabled = !CommandLine.arguments.contains("--no-colors")
-
   run(reporter: reporter)
 }
 

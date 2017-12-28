@@ -25,10 +25,10 @@ public func testExpectation() {
     }
     
     $0.it("errors when value is nil") {
-      try expect("name").to.beNotNil()
+      try expect("name").to.not.beNil()
       
       do {
-        try expect(name).to.beNotNil()
+        try expect(name).to.not.beNil()
         fatalError()
       } catch {}
     }
@@ -171,10 +171,10 @@ public func testExpectation() {
     }
     
     $0.it("throws if error when no error expected") {
-      try expect(nonThrowing()).to.notThrow()
+      try expect(nonThrowing()).to.not.throw()
       
       do {
-        try expect(throwing()).to.notThrow()
+        try expect(throwing()).to.not.throw()
         fatalError()
       } catch {}
     }

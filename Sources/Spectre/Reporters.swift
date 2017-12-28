@@ -243,3 +243,63 @@ class TapReporter : CountReporter {
     print("\(min(1, count))..\(count)")
   }
 }
+
+import XCTest
+
+class XcodeReporter: StandardReporter {
+
+  weak var testCase: XCTestCase?
+
+  override func printStatus() {
+    // while running with test case do not print status
+    // only print it in the very end
+    if testCase == nil {
+      super.printStatus()
+    }
+  }
+
+  override func report(_ name: String, closure: (ContextReporter) -> Void) {
+    if depth == 0 {
+      print("")
+    }
+    super.report(name, closure: closure)
+  }
+
+  override func addFailure(_ name: String, failure: FailureType) {
+    super.addFailure(name, failure: failure)
+    print("")
+
+    let name = (position + [name]).joined(separator: " ")
+    #if os(macOS) || os(iOS) || os(tvOS)
+    let line = failure.line
+    #else
+    let line = UInt(failure.line)
+    #endif
+    testCase?.recordFailure(withDescription: "\(name): \(failure.reason)", inFile: failure.file, atLine: line, expected: false)
+  }
+
+}
+
+extension XCTestCase {
+
+  static let reporter = XcodeReporter()
+
+  public func describe(_ name: StaticString = #function, _ test: (ContextType) -> Void) {
+    XCTestCase.reporter.testCase = self
+    defer { XCTestCase.reporter.testCase = nil }
+
+    var name = String(describing: name)
+    if name.hasPrefix("test") {
+      name = String(name.suffix(name.count - "test".count))
+      name = name.replacingOccurrences(of: "_", with: " ")
+    }
+    if name.hasSuffix("()") {
+      name = String(name.prefix(name.count - 2))
+    }
+    globalContext.describe(name, closure: test)
+    _ = globalContext.run(reporter: XCTestCase.reporter)
+    globalContext.cases.removeLast()
+  }
+
+}
+

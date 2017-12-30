@@ -1,9 +1,8 @@
 #if os(Linux)
 import Glibc
 #else
-import Darwin
+  import Darwin
 #endif
-
 
 let globalContext: GlobalContext = {
   atexit { run() }
@@ -26,7 +25,11 @@ public func run() -> Never  {
   } else if CommandLine.arguments.contains("-t") {
     reporter = DotReporter()
   } else {
-    reporter = StandardReporter()
+    #if os(tvOS) || os(macOS) || os(iOS)
+      reporter = XcodeReporter()
+    #else
+      reporter = StandardReporter()
+    #endif
   }
 
   run(reporter: reporter)

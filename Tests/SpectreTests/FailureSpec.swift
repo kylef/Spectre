@@ -15,6 +15,6 @@ public func testFailure() {
         // We cannot trust fail inside fails tests.
         fatalError("Test failed")
       }
-    }
+    }    
   }
 }

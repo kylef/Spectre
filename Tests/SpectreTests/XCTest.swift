@@ -1,8 +1,9 @@
 import XCTest
+import Spectre
 
 class SpectreTests: XCTestCase {
   func testSpectre() {
-    testFailure()
-    testExpectation()
+    describe("Failure", testFailure)
+    describe("Expectation", testExpectation)
   }
 }

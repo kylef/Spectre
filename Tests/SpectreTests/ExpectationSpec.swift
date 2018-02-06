@@ -1,8 +1,6 @@
 import Spectre
 
-
-public func testExpectation() {
-  describe("Expectation") {
+public let testExpectation: ((ContextType) -> Void) = {
   $0.it("can be created from a value") {
     let expectation = expect("value")
     let value = try expectation.expression()
@@ -191,5 +189,4 @@ public func testExpectation() {
       } catch {}
     }
   }
-}
 }

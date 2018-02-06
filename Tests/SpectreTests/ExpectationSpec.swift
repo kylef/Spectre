@@ -21,6 +21,15 @@ public let testExpectation: ((ContextType) -> Void) = {
     $0.it("passes when value is nil") {
       try expect(name).to.beNil()
     }
+    
+    $0.it("errors when value is nil") {
+      try expect("name").to.not.beNil()
+      
+      do {
+        try expect(name).to.not.beNil()
+        fatalError()
+      } catch {}
+    }
   }
   
   $0.describe("comparison to type") {
@@ -126,6 +135,7 @@ public let testExpectation: ((ContextType) -> Void) = {
       case notFound
       case noPermission
     }
+    enum AnotherError: Error {}
 
     func throwing() throws {
       throw FileError.notFound
@@ -134,19 +144,35 @@ public let testExpectation: ((ContextType) -> Void) = {
     func nonThrowing() throws {}
 
     $0.it("doesn't throw if error is the same") {
-      try expect(try throwing()).toThrow(FileError.notFound)
+      try expect(throwing()).to.throw(FileError.notFound)
     }
 
     $0.it("throws if the error differs") {
       do {
-        try expect(try throwing()).toThrow(FileError.noPermission)
+        try expect(throwing()).to.throw(FileError.noPermission)
+        fatalError()
+      } catch {}
+    }
+
+    $0.it("throws if the error did not match") {
+      do {
+        try expect(throwing()).to.throw({ $0 is AnotherError })
         fatalError()
       } catch {}
     }
 
     $0.it("throws if no error was provided") {
       do {
-        try expect(try nonThrowing()).toThrow()
+        try expect(nonThrowing()).to.throw()
+        fatalError()
+      } catch {}
+    }
+    
+    $0.it("throws if error when no error expected") {
+      try expect(nonThrowing()).to.not.throw()
+      
+      do {
+        try expect(throwing()).to.not.throw()
         fatalError()
       } catch {}
     }

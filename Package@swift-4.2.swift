@@ -1,4 +1,4 @@
-// swift-tools-version:4.0
+// swift-tools-version:4.2
 
 import PackageDescription
 
@@ -11,5 +11,6 @@ let package = Package(
   targets: [
     .target(name: "Spectre", dependencies: []),
     .testTarget(name: "SpectreTests", dependencies: ["Spectre"]),
-  ]
+  ],
+  swiftLanguageVersions: [.v4, .v4_2]
 )

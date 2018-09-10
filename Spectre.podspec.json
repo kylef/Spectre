@@ -16,6 +16,6 @@
     "file": "LICENSE"
   },
   "source_files": [
-    "Sources/*.swift"
+    "Sources/Spectre/*.swift"
   ]
 }

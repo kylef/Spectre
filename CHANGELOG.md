@@ -14,6 +14,8 @@
 
 ### Enhancements
 
+- Adds support for Swift 4.2.
+
 - Unhandled errors will now be reported from the invoked cases source map.
 
 ## 0.8.0

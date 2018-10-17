@@ -113,15 +113,15 @@ The following projects use Spectre:
 
 | Project | CI |
 |---------|----|
-| [Stencil](https://github.com/kylef/Stencil) | [![Build Status](https://img.shields.io/circleci/project/kylef/Stencil/master.svg)](https://circleci.com/gh/kylef/Stencil) |
+| [Stencil](https://github.com/stencilproject/Stencil) | [![Build Status](https://travis-ci.org/stencilproject/Stencil.svg?branch=master)](https://travis-ci.org/stencilproject/Stencil) |
 | [Inquiline](https://github.com/nestproject/Inquiline) | [![Build Status](https://img.shields.io/travis/nestproject/Inquiline/master.svg?style=flat)](https://travis-ci.org/nestproject/Inquiline) |
-| [CardKit](https://github.com/kylef/CardKit) | [![Build Status](https://img.shields.io/travis/kylef/CardKit/master.svg?style=flat)](https://travis-ci.org/kylef/CardKit) |
+| [CardKit](https://github.com/kylef-archive/CardKit) | N/A |
 
 ## Installation / Running
 
 ### SPM
 
-Check out [spectre-build](http://github.com/kylef/spectre-build).
+Check out [spectre-build](https://github.com/kylef-archive/spectre-build).
 
 ### Conche
 

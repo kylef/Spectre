@@ -1,6 +1,7 @@
 .build/
 Packages/
-*.xcodeproj
+Spectre.xcodeproj/*
+!Spectre.xcodeproj/project.pbxproj
 IntegrationTests/Failing-dot-output.txt
 IntegrationTests/Failing-output.txt
 IntegrationTests/Failing-tap-output.txt

@@ -1,11 +1,3 @@
-//
-//  Spectre.h
-//  Spectre
-//
-//  Created by Roman Podymov on 12/04/2020.
-//  Copyright © 2020 Kyle Fuller. All rights reserved.
-//
-
 #import <Foundation/Foundation.h>
 
 //! Project version number for Spectre.

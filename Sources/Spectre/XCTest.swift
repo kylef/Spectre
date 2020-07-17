@@ -32,7 +32,13 @@ class XcodeReporter: ContextReporter {
   func addDisabled(_ name: String) {}
 
   func addFailure(_ name: String, failure: FailureType) {
-    testCase.recordFailure(withDescription: "\(name): \(failure.reason)", inFile: failure.file, atLine: failure.line, expected: false)
+    if #available(OSX 10.13, *) {
+            testCase.recordFailure(withDescription: "\(name): \(failure.reason)", inFile: failure.file, atLine: failure.line, expected: false)
+        } else {
+            let location = XCTSourceCodeLocation(filePath: failure.file, lineNumber: failure.line)
+            let issue = XCTIssue(type: .assertionFailure, compactDescription: "\(name): \(failure.reason)", detailedDescription: nil, sourceCodeContext: .init(location: location), associatedError: nil, attachments: [])
+            testCase.record(issue)
+        }
   }
 }
 #endif

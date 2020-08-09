@@ -1,0 +1,15 @@
+on: push
+jobs:
+  xcodetest:
+    runs-on: macos-latest
+    env:
+      DEVELOPER_DIR: '/Applications/Xcode_${{ matrix.xcode }}.app'
+    strategy:
+      matrix:
+        xcode: ['10.3', '11.3.1', '11.6']
+    steps:
+      - uses: actions/checkout@v2
+      - run: rm -fr IntegrationTests  # swift package will generate wrong package
+      - run: swift package generate-xcodeproj
+      - run: xcodebuild test -scheme Spectre-Package
+      - run: xcodebuild test -scheme Spectre-Package -sdk iphonesimulator -destination "name=iPhone 8"

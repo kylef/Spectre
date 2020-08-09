@@ -16,6 +16,15 @@
     "file": "LICENSE"
   },
   "source_files": [
-    "Sources/Spectre/*.swift"
+    "Sources/Spectre/Case.swift",
+    "Sources/Spectre/Context.swift",
+    "Sources/Spectre/Expectation.swift",
+    "Sources/Spectre/Failure.swift",
+    "Sources/Spectre/Global.swift",
+    "Sources/Spectre/GlobalContext.swift",
+    "Sources/Spectre/Reporter.swift",
+    "Sources/Spectre/Reporters.swift",
+    "Sources/Spectre/XCTest.swift",
+    "Sources/Spectre/XCTest@4.swift"
   ]
 }

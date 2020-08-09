@@ -1,4 +1,4 @@
-// swift-tools-version:4.2
+// swift-tools-version:5.0
 
 import PackageDescription
 
@@ -9,8 +9,8 @@ let package = Package(
     .library(name: "Spectre", targets: ["Spectre"]),
   ],
   targets: [
-    .target(name: "Spectre", exclude: ["Sources/Spectre/XCTest@5.swift"]),
+    .target(name: "Spectre", exclude: ["XCTest@4.swift"]),
     .testTarget(name: "SpectreTests", dependencies: ["Spectre"]),
   ],
-  swiftLanguageVersions: [.v4, .v4_2]
+  swiftLanguageVersions: [.v5]
 )

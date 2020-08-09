@@ -1,5 +1,11 @@
 # Spectre Changelog
 
+## Unreleased
+
+### Enhancements
+
+- Added support for using the XcodeReporter with Xcode 12 beta.
+
 ## 0.9.0 (2018-09-10)
 
 ### Breaking

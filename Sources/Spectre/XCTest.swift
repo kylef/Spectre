@@ -30,9 +30,5 @@ class XcodeReporter: ContextReporter {
   func addSuccess(_ name: String)  {}
 
   func addDisabled(_ name: String) {}
-
-  func addFailure(_ name: String, failure: FailureType) {
-    testCase.recordFailure(withDescription: "\(name): \(failure.reason)", inFile: failure.file, atLine: failure.line, expected: false)
-  }
 }
 #endif

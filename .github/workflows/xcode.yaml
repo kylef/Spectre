@@ -6,7 +6,7 @@ jobs:
       DEVELOPER_DIR: '/Applications/Xcode_${{ matrix.xcode }}.app'
     strategy:
       matrix:
-        xcode: ['10.3', '11.3.1', '11.6']
+        xcode: ['10.3', '11.3.1', '11.6', '12_beta']
     steps:
       - uses: actions/checkout@v2
       - run: rm -fr IntegrationTests  # swift package will generate wrong package

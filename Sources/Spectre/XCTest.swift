@@ -1,4 +1,4 @@
-#if os(macOS)
+#if os(macOS) || os(iOS) || os(tvOS)
 import XCTest
 
 

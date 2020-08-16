@@ -6,6 +6,12 @@ jobs:
       dist: trusty
     - env: SWIFT_VERSION=4.2.4
       dist: bionic
+    - env: SWIFT_VERSION=5.0.3
+      dist: bionic
+    - env: SWIFT_VERSION=5.1.5
+      dist: bionic
+    - env: SWIFT_VERSION=5.2.5
+      dist: bionic
 install:
   - eval "$(curl -sL https://swiftenv.fuller.li/install.sh)"
 script:

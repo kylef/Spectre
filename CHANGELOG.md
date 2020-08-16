@@ -1,6 +1,6 @@
 # Spectre Changelog
 
-## Unreleased
+## 0.9.1 (2020-08-16)
 
 ### Enhancements
 

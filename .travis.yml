@@ -1,8 +1,11 @@
 language: generic
 sudo: required
-dist: trusty
-env:
-  - SWIFT_VERSION=4.0
+jobs:
+  include:
+    - env: SWIFT_VERSION=4.0
+      dist: trusty
+    - env: SWIFT_VERSION=4.2.4
+      dist: bionic
 install:
   - eval "$(curl -sL https://swiftenv.fuller.li/install.sh)"
 script:

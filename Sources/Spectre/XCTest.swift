@@ -1,4 +1,3 @@
-#if os(macOS) || os(iOS) || os(tvOS)
 import XCTest
 
 
@@ -31,4 +30,3 @@ class XcodeReporter: ContextReporter {
 
   func addDisabled(_ name: String) {}
 }
-#endif

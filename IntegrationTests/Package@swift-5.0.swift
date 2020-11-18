@@ -10,7 +10,7 @@ let package = Package(
     .executable(name: "Failing", targets: ["Failing"]),
   ],
   targets: [
-    .target(name: "Spectre", exclude: ["XCTest@4.swift"]),
+    .target(name: "Spectre"),
     .target(name: "Passing", dependencies: ["Spectre"]),
     .target(name: "Disabled", dependencies: ["Spectre"]),
     .target(name: "Failing", dependencies: ["Spectre"]),

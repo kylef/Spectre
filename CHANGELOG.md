@@ -1,5 +1,18 @@
 # Spectre Changelog
 
+## 0.9.2 (2020-11-18)
+
+### Enhancements
+
+- Added support for using the XCTest integration on non Apple platforms with
+  [swift-corelibs-xctest](https://github.com/apple/swift-corelibs-xctest)
+
+### Bug Fixes
+
+- Compatibility with some versions of Xcode greater than 12.0.1 where a build
+  error with incompatibility between XCTIssue and XCTIssueReference may be
+  presented with Swift 5.3.
+
 ## 0.9.1 (2020-08-16)
 
 ### Enhancements

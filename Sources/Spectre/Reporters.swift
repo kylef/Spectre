@@ -28,11 +28,11 @@ enum ANSI : String, CustomStringConvertible {
       return false
     }
 
-    guard let termType = getenv("TERM") else {
+    guard let termType = ProcessInfo.processInfo.environment["TERM"] else {
       return false
     }
 
-    guard String(cString: termType).lowercased() != "dumb" else {
+    guard termType.lowercased() != "dumb" else {
       return false
     }
 

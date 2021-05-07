@@ -1,6 +1,8 @@
 import Foundation
 #if os(Linux)
 import Glibc
+#elseif os(Windows)
+import CRT
 #else
 import Darwin.C
 #endif
@@ -15,15 +17,22 @@ enum ANSI : String, CustomStringConvertible {
   case Reset = "\u{001B}[0;0m"
 
   static var supportsANSI: Bool {
-    guard isatty(STDOUT_FILENO) != 0 else {
+    let platform_isatty: (Int32) -> Int32
+    #if os(Windows)
+      platform_isatty = _isatty
+    #else
+      platform_isatty = isatty
+    #endif
+
+    guard platform_isatty(STDOUT_FILENO) != 0 else {
       return false
     }
 
-    guard let termType = getenv("TERM") else {
+    guard let termType = ProcessInfo.processInfo.environment["TERM"] else {
       return false
     }
 
-    guard String(cString: termType).lowercased() != "dumb" else {
+    guard termType.lowercased() != "dumb" else {
       return false
     }
 

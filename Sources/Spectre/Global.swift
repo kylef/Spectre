@@ -61,14 +61,18 @@ fileprivate func defaultReporter() -> Reporter {
 }
 
 public func run() -> Never  {
-  let reporter: Reporter
+  var reporter = defaultReporter()
 
-  if CommandLine.arguments.contains("--tap") {
-    reporter = TapReporter()
-  } else if CommandLine.arguments.contains("-t") {
-    reporter = DotReporter()
-  } else {
-    reporter = defaultReporter()
+  for argument in CommandLine.arguments[1...] {
+    if CommandLine.arguments.contains("--tap") {
+      reporter = TapReporter()
+    } else if CommandLine.arguments.contains("-t") {
+      reporter = DotReporter()
+    } else {
+      let error = "Unexpected argument: \(argument)\n"
+      FileHandle.standardError.write(error.data(using: .utf8) ?? Data())
+      exit(4)
+    }
   }
 
   run(reporter: reporter)

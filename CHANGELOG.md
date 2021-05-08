@@ -11,6 +11,13 @@
   $ env SPECTRE_REPORTER=dot swift test
   ```
 
+- Additional arguments and options can be passed to Spectre using the
+  `SPECTRE_ADDOPTS` environment variable, for example:
+
+  ```shell
+  $ SPECTRE_ADDOPTS=Tests/SpectreTests/FailureSpec.swift swift test
+  ```
+
 - Spectre can be passed a set of files to filter which tests will be executed.
 
 ## 0.9.2 (2020-11-18)

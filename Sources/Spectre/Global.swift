@@ -96,7 +96,12 @@ public func run() -> Never  {
   var reporter = defaultReporter()
   var paths: [Path] = []
 
-  for argument in CommandLine.arguments[1...] {
+  var arguments: [String] = Array(CommandLine.arguments[1...])
+  if let addOptions = ProcessInfo.processInfo.environment["SPECTRE_ADDOPTS"] {
+    arguments += addOptions.split(separator: " ").map(String.init)
+  }
+
+  for argument in arguments {
     if argument == "--tap" {
       reporter = TapReporter()
     } else if argument == "-t" {

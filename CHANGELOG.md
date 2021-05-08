@@ -2,6 +2,10 @@
 
 ## TBD
 
+### Breaking Changes
+
+- Support for Swift < 4.2 has been dropped.
+
 ### Enhancements
 
 - Reporter type can be set via an environment variable. For example, to use dot

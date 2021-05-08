@@ -2,8 +2,6 @@ language: generic
 sudo: required
 jobs:
   include:
-    - env: SWIFT_VERSION=4.0
-      dist: trusty
     - env: SWIFT_VERSION=4.2.4
       dist: bionic
     - env: SWIFT_VERSION=5.0.3

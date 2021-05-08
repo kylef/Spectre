@@ -1,5 +1,16 @@
 # Spectre Changelog
 
+## TBD
+
+### Enhancements
+
+- Reporter type can be set via an environment variable. For example, to use dot
+  reporter:
+
+  ```shell
+  $ env SPECTRE_REPORTER=dot swift test
+  ```
+
 ## 0.9.2 (2020-11-18)
 
 ### Enhancements

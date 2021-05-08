@@ -27,11 +27,19 @@ describe("a person") {
 ### Reporters
 
 Spectre currently has two built-in reporters, Standard and the Dot reporter.
-Custom reporters are supported, simply make a type that conforms to `Reporter`.
+Custom reporters are supported, make a type that conforms to `Reporter`.
 
 - Standard
 - Dot Reporter (`-t`)
 - Tap Reporter (`--tap)` - [Test Anything Protocol](http://testanything.org/)-compatible output
+
+The default reporter can be configured via an environment variable. For
+example:
+
+```shell
+$ env SPECTRE_REPORTER=dot swift test
+$ env SPECTRE_REPORTER=tap swift test
+```
 
 #### Standard
 

@@ -111,23 +111,14 @@ failure when the assertion does not meet expectaions.
 
 The following projects use Spectre:
 
-| Project | CI |
-|---------|----|
-| [Stencil](https://github.com/stencilproject/Stencil) | [![Build Status](https://travis-ci.org/stencilproject/Stencil.svg?branch=master)](https://travis-ci.org/stencilproject/Stencil) |
-| [Inquiline](https://github.com/nestproject/Inquiline) | [![Build Status](https://img.shields.io/travis/nestproject/Inquiline/master.svg?style=flat)](https://travis-ci.org/nestproject/Inquiline) |
-| [CardKit](https://github.com/kylef-archive/CardKit) | N/A |
+- [Commander](https://github.com/kylef/Commander)
+- [Stencil](https://github.com/stencilproject/Stencil)
 
 ## Installation / Running
 
-### SPM
+### Swift Package Manager
 
-Check out [spectre-build](https://github.com/kylef-archive/spectre-build).
-
-### Conche
-
-[Conche](https://github.com/Conche/Conche) build system has integrated support
-for Spectre. You can simply add a `test_spec` to your Conche podspec depending
-on Spectre and it will run your tests with `conche test`.
+Check out [Commander](https://github.com/kylef/Commander) as an example.
 
 ### Playground
 
@@ -135,15 +126,3 @@ You can use Spectre in an Xcode Playground, open `Spectre.playground` in
 this repository, failures are printed in the console.
 
 ![Spectre in an Xcode Playground](Screenshots/Playground.png)
-
-### Manually
-
-You can build Spectre as a Framework or a library and link against it.
-
-For example, if you clone Spectre and run `make` it will build a library you
-can link against:
-
-```shell
-$ swiftc -I .conche/modules -L .conche/lib -lSpectre -o runner myTests.swift
-$ ./runner
-```

@@ -60,23 +60,67 @@ fileprivate func defaultReporter() -> Reporter {
   return StandardReporter()
 }
 
+
+@discardableResult func disableUnmatchedPaths(_ paths: [Path], _ `case`: CaseType) -> Bool {
+  if let `case` = `case` as? Case {
+    if !`case`.disabled {
+      let path = Path(`case`.file)
+
+      if !(paths.contains(where: { $0 ~= path })) {
+        `case`.disabled = true
+      }
+    }
+    return !`case`.disabled
+  } else if let context = `case` as? Context {
+    var containsMatch = false
+    for `case` in context.cases {
+      if disableUnmatchedPaths(paths, `case`) {
+        containsMatch = true
+      }
+    }
+
+    if !containsMatch {
+      context.disabled = true
+    }
+
+    return containsMatch
+  } else {
+    let error = "Unexpected type on global context (report as bug)\n"
+    FileHandle.standardError.write(error.data(using: .utf8)!)
+    exit(3)
+  }
+}
+
+
 public func run() -> Never  {
   var reporter = defaultReporter()
+  var paths: [Path] = []
 
   for argument in CommandLine.arguments[1...] {
-    if CommandLine.arguments.contains("--tap") {
+    if argument == "--tap" {
       reporter = TapReporter()
-    } else if CommandLine.arguments.contains("-t") {
+    } else if argument == "-t" {
       reporter = DotReporter()
-    } else {
-      let error = "Unexpected argument: \(argument)\n"
-      FileHandle.standardError.write(error.data(using: .utf8) ?? Data())
+    } else if argument.hasPrefix("-") {
+      let error = "Unexpected option: \(argument)\n"
+      FileHandle.standardError.write(error.data(using: .utf8)!)
       exit(4)
+    } else {
+      let path = Path(argument)
+      paths.append(path.absolute())
+    }
+  }
+
+  // filter by paths
+  if !paths.isEmpty {
+    for `case` in globalContext.cases {
+      disableUnmatchedPaths(paths, `case`)
     }
   }
 
   run(reporter: reporter)
 }
+
 
 public func run(reporter: Reporter) -> Never  {
   if globalContext.run(reporter: reporter) {

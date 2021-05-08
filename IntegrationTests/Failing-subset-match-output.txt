@@ -1,0 +1,12 @@
+-> a person
+  -> named kyle
+    -> is Kyle
+
+
+ a person named kyle is Kyle
+  Sources/Failing/main.swift:10 Katie is not equal to Kyle
+
+  ```
+  try expect(person) == "Kyle"
+  ```
+0 passes and 1 failure

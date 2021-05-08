@@ -11,6 +11,8 @@
   $ env SPECTRE_REPORTER=dot swift test
   ```
 
+- Spectre can be passed a set of files to filter which tests will be executed.
+
 ## 0.9.2 (2020-11-18)
 
 ### Enhancements

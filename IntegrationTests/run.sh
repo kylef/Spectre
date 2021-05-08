@@ -54,6 +54,24 @@ for var in "$@"; do
     echo "Tap Output Mismatch"
     EXIT_CODE=1
   fi
+
+  # Subset of tests (match)
+  ./.build/debug/$var Sources/*/main.swift > $var-subset-match-output.txt
+  if [ $? != 0 ]; then
+    if [ $var != "Failing" ]; then
+      echo "    - Integration Failed"
+      EXIT_CODE=1
+    fi
+  elif [ $var = "Failing" ]; then
+    echo "    - Failing Integration Succeeded"
+    EXIT_CODE=1
+  fi
+
+  # Subset of tests (mismatch)
+  ./.build/debug/$var Sources/unknown.swift > $var-subset-mismatch-output.txt
+  if [ $? != 0 ]; then
+    EXIT_CODE=1
+  fi
 done
 
 exit $EXIT_CODE

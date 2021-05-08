@@ -15,15 +15,25 @@ public protocol ContextType {
   func after(_ closure: @escaping () -> Void)
 
   /// Adds a new test case
-  func it(_ name: String, closure: @escaping () throws -> Void)
+  func it(_ name: String, file: String, line: Int, closure: @escaping () throws -> Void)
 
   /// Adds a disabled test case
-  func xit(_ name: String, closure: @escaping () throws -> Void)
+  func xit(_ name: String, file: String, line: Int, closure: @escaping () throws -> Void)
+}
+
+extension ContextType {
+  public func it(_ name: String, file: String = #file, line: Int = #line, closure: @escaping () throws -> Void) {
+    it(name, file: file, line: line, closure: closure)
+  }
+
+  public func xit(_ name: String, file: String = #file, line: Int = #line, closure: @escaping () throws -> Void) {
+    xit(name, file: file, line: line, closure: closure)
+  }
 }
 
 class Context : ContextType, CaseType {
   let name: String
-  let disabled: Bool
+  var disabled: Bool
   fileprivate weak var parent: Context?
   var cases = [CaseType]()
 
@@ -71,12 +81,12 @@ class Context : ContextType, CaseType {
     afters.append(closure)
   }
 
-  func it(_ name: String, closure: @escaping () throws -> Void) {
-    cases.append(Case(name: name, closure: closure))
+  func it(_ name: String, file: String, line: Int, closure: @escaping () throws -> Void) {
+    cases.append(Case(name: name, closure: closure, file: file, line: line))
   }
 
-  func xit(_ name: String, closure: @escaping () throws -> Void) {
-    cases.append(Case(name: name, disabled: true, closure: closure))
+  func xit(_ name: String, file: String, line: Int, closure: @escaping () throws -> Void) {
+    cases.append(Case(name: name, disabled: true, closure: closure, file: file, line: line))
   }
 
   func runBefores() {

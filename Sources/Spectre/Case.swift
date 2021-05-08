@@ -5,7 +5,7 @@ protocol CaseType {
 
 class Case : CaseType {
   let name:String
-  let disabled: Bool
+  var disabled: Bool
   let closure:() throws -> ()
 
   let function: String

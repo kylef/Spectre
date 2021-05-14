@@ -6,6 +6,10 @@
 
 - Support for Swift < 4.2 has been dropped.
 
+### Bug Fixes
+
+- Use `as` to cast `XCTIssueReference` to `XCTIssue` so it will compile on Xcode 12.5
+
 ### Enhancements
 
 - Reporter type can be set via an environment variable. For example, to use dot

@@ -1,14 +1,10 @@
 # Spectre Changelog
 
-## TBD
+## 0.10.0 (2021-05-15)
 
 ### Breaking Changes
 
 - Support for Swift < 4.2 has been dropped.
-
-### Bug Fixes
-
-- Use `as` to cast `XCTIssueReference` to `XCTIssue` so it will compile on Xcode 12.5
 
 ### Enhancements
 
@@ -27,6 +23,10 @@
   ```
 
 - Spectre can be passed a set of files to filter which tests will be executed.
+
+- Add support for Xcode 12.5.
+
+- Added support for building Spectre on Windows.
 
 ## 0.9.2 (2020-11-18)
 

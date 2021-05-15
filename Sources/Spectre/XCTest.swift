@@ -45,7 +45,11 @@ class XcodeReporter: ContextReporter {
     #else
     let issue = XCTIssue(type: .assertionFailure, compactDescription: "\(name): \(failure.reason)", detailedDescription: nil, sourceCodeContext: .init(location: location), associatedError: nil, attachments: [])
     #endif
+    #if compiler(>=5.4)
+    testCase.record(issue as XCTIssue)
+    #else
     testCase.record(issue)
+    #endif
     #else
     testCase.recordFailure(withDescription: "\(name): \(failure.reason)", inFile: failure.file, atLine: failure.line, expected: false)
     #endif

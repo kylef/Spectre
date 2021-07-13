@@ -1,5 +1,12 @@
 # Spectre Changelog
 
+## TBD
+
+### Bug fixes
+
+- Resolved error due to out of date `Package.swift` files.
+
+
 ## 0.10.0 (2021-05-15)
 
 ### Breaking Changes

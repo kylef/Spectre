@@ -9,7 +9,7 @@ let package = Package(
     .library(name: "Spectre", targets: ["Spectre"]),
   ],
   targets: [
-    .target(name: "Spectre", exclude: ["Sources/Spectre/XCTest@5.swift"]),
+    .target(name: "Spectre"),
     .testTarget(name: "SpectreTests", dependencies: ["Spectre"]),
   ],
   swiftLanguageVersions: [.v4, .v4_2]

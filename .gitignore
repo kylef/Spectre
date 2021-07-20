@@ -1,6 +1,8 @@
 .build/
 Packages/
-*.xcodeproj
+Spectre.xcodeproj/xcuserdata
+Spectre.xcodeproj/project.xcworkspace
+*.xcuserstate
 IntegrationTests/Failing-dot-output.txt
 IntegrationTests/Failing-output.txt
 IntegrationTests/Failing-tap-output.txt

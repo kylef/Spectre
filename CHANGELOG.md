@@ -1,10 +1,10 @@
 # Spectre Changelog
 
-## TBD
+## 0.10.1 (2021-08-31)
 
 ### Bug fixes
 
-- Resolved error due to out of date `Package.swift` files.
+- Prevents compilation error when building Spectre on Xcode 13.
 
 
 ## 0.10.0 (2021-05-15)

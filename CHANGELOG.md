@@ -71,6 +71,12 @@
 - Adds support for Swift 4.2.
 
 - Unhandled errors will now be reported from the invoked cases source map.
+- New `not` expectation method which returns a Not Expectation. This allows you
+  to run expecations such as:
+
+  ```swift
+  try expect(...).to.not.beNil()
+  ```
 
 ## 0.8.0
 

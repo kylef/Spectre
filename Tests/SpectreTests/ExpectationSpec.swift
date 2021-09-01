@@ -21,6 +21,23 @@ public let testExpectation: ((ContextType) -> Void) = {
     $0.it("passes when value is nil") {
       try expect(name).to.beNil()
     }
+
+    $0.context("not") {
+      $0.it("does not error when value is not nil") {
+        do {
+         try expect("kyle").to.not.beNil()
+        } catch {
+          fatalError()
+        }
+      }
+
+      $0.it("errors when value is nil") {
+        do {
+          try expect(name).to.not.beNil()
+          fatalError()
+        } catch {}
+      }
+    }
   }
   
   $0.describe("comparison to type") {

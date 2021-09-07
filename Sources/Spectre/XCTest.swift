@@ -8,6 +8,12 @@ extension XCTestCase {
     context.run(reporter: XcodeReporter(testCase: self))
   }
 
+  public func describe(_ name: String, _ closure: (ContextType) -> Void) async {
+    let context = Context(name: name)
+    closure(context)
+    await context.run(reporter: XcodeReporter(testCase: self))
+  }
+
   public func it(_ name: String, closure: @escaping () throws -> Void) {
     let `case` = Case(name: name, closure: closure)
     `case`.run(reporter: XcodeReporter(testCase: self))

@@ -16,9 +16,11 @@ public protocol ContextType {
 
   /// Adds a new test case
   func it(_ name: String, file: String, line: Int, closure: @escaping () throws -> Void)
+  func it(_ name: String, file: String, line: Int, closure: @escaping () async throws -> Void)
 
   /// Adds a disabled test case
   func xit(_ name: String, file: String, line: Int, closure: @escaping () throws -> Void)
+  func xit(_ name: String, file: String, line: Int, closure: @escaping () async throws -> Void)
 }
 
 extension ContextType {
@@ -26,7 +28,15 @@ extension ContextType {
     it(name, file: file, line: line, closure: closure)
   }
 
+  public func it(_ name: String, file: String = #file, line: Int = #line, closure: @escaping () async throws -> Void) {
+    it(name, file: file, line: line, closure: closure)
+  }
+
   public func xit(_ name: String, file: String = #file, line: Int = #line, closure: @escaping () throws -> Void) {
+    xit(name, file: file, line: line, closure: closure)
+  }
+
+  public func xit(_ name: String, file: String = #file, line: Int = #line, closure: @escaping () async throws -> Void) {
     xit(name, file: file, line: line, closure: closure)
   }
 }
@@ -36,6 +46,7 @@ class Context : ContextType, CaseType {
   var disabled: Bool
   fileprivate weak var parent: Context?
   var cases = [CaseType]()
+  var asyncCases = [AsyncCaseType]()
 
   typealias Before = (() -> Void)
   typealias After = (() -> Void)
@@ -85,8 +96,16 @@ class Context : ContextType, CaseType {
     cases.append(Case(name: name, closure: closure, file: file, line: line))
   }
 
+  func it(_ name: String, file: String, line: Int, closure: @escaping () async throws -> Void) {
+    asyncCases.append(AsyncCase(name: name, closure: closure, file: file, line: line))
+  }
+
   func xit(_ name: String, file: String, line: Int, closure: @escaping () throws -> Void) {
     cases.append(Case(name: name, disabled: true, closure: closure, file: file, line: line))
+  }
+
+  func xit(_ name: String, file: String, line: Int, closure: @escaping () async throws -> Void) {
+    asyncCases.append(AsyncCase(name: name, disabled: true, closure: closure, file: file, line: line))
   }
 
   func runBefores() {
@@ -109,6 +128,27 @@ class Context : ContextType, CaseType {
       cases.forEach {
         runBefores()
         $0.run(reporter: reporter)
+        runAfters()
+      }
+    }
+  }
+
+  func run(reporter: ContextReporter) async {
+    if disabled {
+      reporter.addDisabled(name)
+      return
+    }
+
+    await reporter.report(name) { reporter in
+      cases.forEach {
+        runBefores()
+        $0.run(reporter: reporter)
+        runAfters()
+      }
+
+      for c in asyncCases {
+        runBefores()
+        await c.run(reporter: reporter)
         runAfters()
       }
     }

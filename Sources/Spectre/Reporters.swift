@@ -118,6 +118,12 @@ class CountReporter : Reporter, ContextReporter {
     }
   }
 
+  func report(closure: (ContextReporter) async -> Void) async -> Bool {
+    await closure(self)
+    printStatus()
+    return failures.isEmpty
+  }
+
 #if swift(>=3.0)
   func report(closure: (ContextReporter) -> Void) -> Bool {
     closure(self)
@@ -131,6 +137,14 @@ class CountReporter : Reporter, ContextReporter {
     return failures.isEmpty
   }
 #endif
+
+  func report(_ name: String, closure: (ContextReporter) async -> Void) async {
+    depth += 1
+    position.append(name)
+    await closure(self)
+    depth -= 1
+    position.removeLast()
+  }
 
 #if swift(>=3.0)
   func report(_ name: String, closure: (ContextReporter) -> Void) {
@@ -169,6 +183,12 @@ class StandardReporter : CountReporter {
   override func report(_ name: String, closure: (ContextReporter) -> Void) {
     colour(.Bold, "-> \(name)")
     super.report(name, closure: closure)
+    print("")
+  }
+
+  override func report(_ name: String, closure: (ContextReporter) async -> Void) async {
+    colour(.Bold, "-> \(name)")
+    await super.report(name, closure: closure)
     print("")
   }
 

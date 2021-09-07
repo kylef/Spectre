@@ -15,7 +15,8 @@ let globalContext: GlobalContext = {
     fatalError("Use of global context is not permitted when running inside XCTest")
   }
 #endif
-  atexit { run() }
+  //await run()
+  //atexit { async run() }
   return GlobalContext()
 }()
 
@@ -23,6 +24,7 @@ public func describe(_ name: String, _ closure: (ContextType) -> Void) {
   globalContext.describe(name, closure: closure)
 }
 
+// fixme allow async
 public func it(_ name: String, _ closure: @escaping () throws -> Void) {
   globalContext.it(name, closure: closure)
 }
@@ -92,7 +94,7 @@ fileprivate func defaultReporter() -> Reporter {
 }
 
 
-public func run() -> Never  {
+public func run() async -> Never  {
   var reporter = defaultReporter()
   var paths: [Path] = []
 
@@ -123,12 +125,12 @@ public func run() -> Never  {
     }
   }
 
-  run(reporter: reporter)
+  await run(reporter: reporter)
 }
 
 
-public func run(reporter: Reporter) -> Never  {
-  if globalContext.run(reporter: reporter) {
+public func run(reporter: Reporter) async -> Never  {
+  if await globalContext.run(reporter: reporter) {
     exit(0)
   }
   exit(1)

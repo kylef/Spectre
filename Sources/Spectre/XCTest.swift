@@ -26,6 +26,10 @@ class XcodeReporter: ContextReporter {
     closure(self)
   }
 
+  func report(_ name: String, closure: (ContextReporter) async -> Void) async {
+    await closure(self)
+  }
+
   func addSuccess(_ name: String)  {}
 
   func addDisabled(_ name: String) {}
